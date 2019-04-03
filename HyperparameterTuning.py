@@ -1,4 +1,4 @@
-import FeaturesSelector
+from FeaturesSelector import FeaturesSelector
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
