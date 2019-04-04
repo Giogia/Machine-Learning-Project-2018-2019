@@ -22,6 +22,7 @@ class Classifier:
     def __init__(self, kind, **args):
 
         if kind == LINEAR:
+            # TODO find correct class for linear classifier
             self.classifier = linear_model.RidgeClassifier(**args)
 
         elif kind == LDA:
