@@ -7,8 +7,17 @@ LOGISTIC = 'logistic'
 NAIVE_BAYES = 'naive_bayes'
 LINEAR = 'linear'
 
+
 # interface function for classifiers
-def predict(kind, X, Y, **args):
+def predict(kind, features, labels, **args):
+
+    """
+    USAGE
+    x = [[1],[2],[3],[4]]
+    y = [1,2,3,4]
+    predictions = predict(SVM, x,y, gamma='scale', decision_function_shape='ovo')
+
+    """
 
     if kind == LINEAR:
         classifier = linear_model
@@ -23,8 +32,8 @@ def predict(kind, X, Y, **args):
         classifier = linear_model.LogisticRegression(**args)
 
     elif kind == NAIVE_BAYES:
-        #TODO gaussian and complement naive bayes
-        classifier =  naive_bayes.MultinomialNB(**args)
+        # TODO gaussian and complement naive bayes
+        classifier = naive_bayes.MultinomialNB(**args)
 
     elif kind == SVM:
         classifier = svm.SVC(**args)
@@ -32,13 +41,7 @@ def predict(kind, X, Y, **args):
     else:
         raise NotImplementedError
 
-    classifier.fit(X,Y)
+    classifier.fit(features, labels)
 
-    return classifier.predict(X)
+    return classifier.predict(features)
 
-'''USAGE
-X = [[0], [1], [2], [3]]
-Y = [0, 1, 2, 3]
-predictions = predict(SVM, X,Y, gamma='scale', decision_function_shape='ovo')
-print(predictions)
-'''
