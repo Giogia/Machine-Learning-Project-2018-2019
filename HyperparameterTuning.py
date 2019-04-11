@@ -22,11 +22,9 @@ def tune(classifier, selector, sets):
         feature_selector = FeaturesSelector(selector, i)
         reduced_sets = feature_selector.fit(sets)
 
-        # fit the classifier with reduced features
-        classifier.fit(reduced_sets.train.x, reduced_sets.train.y)
-
-        training_predictions = classifier.predict(reduced_sets.train.x)
-        validation_predictions = classifier.predict(reduced_sets.eval.x)
+        # predict with reduced features
+        training_predictions, validation_predictions = \
+            classifier.get_predictions(reduced_sets.train.x, reduced_sets.train.y, reduced_sets.eval.x)
 
         # add errors results to array
         training_error.append(1 - accuracy_score(training_predictions, reduced_sets.train.y))

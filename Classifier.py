@@ -1,4 +1,4 @@
-from sklearn import linear_model, discriminant_analysis,  naive_bayes, svm
+from sklearn import linear_model, discriminant_analysis, naive_bayes, svm
 
 SVM = 'svm'
 LDA = 'lda'
@@ -10,15 +10,20 @@ LINEAR = 'linear'
 
 # interface class for classifiers
 class Classifier:
-
     """
     USAGE
+
     classifier = Classifier(SVM, gamma='scale', decision_function_shape='ovo')
-    classifier.fit(set.train.x, set.train.y)
-    predictions = classifier.predict(set.train.x)
+
+    train_predictions = classifier.get_predictions(set.train.x, set.train.y)
+    or
+    test_predictions = classifier.get_predictions(set.test.x, set.test.y)
+    or
+    train_predictions, eval_predictions = classifier.get_predictions(set.train.x, set.train.y, set.eval.x)
 
     """
 
+    # create classifier object from SciKitLearn library
     def __init__(self, kind, **args):
 
         if kind == LINEAR:
@@ -44,10 +49,12 @@ class Classifier:
         else:
             raise NotImplementedError
 
-    def fit(self, features, labels):
+    # return training predictions and
+    def get_predictions(self, features, labels, eval_features=None):
 
         self.classifier.fit(features, labels)
 
-    def predict(self, features):
-
-        return self.classifier.predict(features)
+        if eval_features is None:
+            return self.classifier.predict(features)
+        else:
+            return self.classifier.predict(features), self.classifier.predict(eval_features)
