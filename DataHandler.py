@@ -25,7 +25,7 @@ def load_data():
     train_x = train_x / 255.0
     test_x = test_x / 255.0
 
-    limit = len(train_x)*0.2
+    limit = int(len(train_x)*0.2)
     sets = Sets(train_x[limit:], train_y[limit:], train_x[:limit], train_y[:limit], test_x, test_y)
     class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                    'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
