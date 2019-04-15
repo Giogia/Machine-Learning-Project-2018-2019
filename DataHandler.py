@@ -23,6 +23,7 @@ def load_data(eval_percentage=0.2, linearized=True):
 
     if linearized:
         train_x = train_x.reshape((-1, 784))
+        test_x = test_x.reshape((-1, 784))
 
     train_x, train_y = randomize(train_x, train_y)
     train_x = train_x / 255.0
