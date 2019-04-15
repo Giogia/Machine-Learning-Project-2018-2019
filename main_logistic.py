@@ -1,5 +1,5 @@
 from Classifier import Classifier
-from DataHandler import load_linearized_data
+from DataHandler import load_data
 
 # The default dictionary for the Logistic Regression parameters in scikit-learn
 lor_dict = {
@@ -26,16 +26,16 @@ lor_dict['solver'] = 'lbfgs'
 lor_dict['n_jobs'] = 2
 
 
-sets, class_names = load_linearized_data()
+sets, class_names = load_data(linearized=True)
 print(sets.eval.y)
 
 lor_classifier = Classifier('logistic', **lor_dict)
 train_predict, eval_predict = lor_classifier.get_predictions(features=sets.train.x,labels=sets.train.y,eval_features=sets.eval.x)
 test_predict = lor_classifier.classifier.predict(sets.test.x)
 
-train_accuracy = sum([train_predict[i]==sets.train.y[i] for i in range(len(train_predict))])/len(train_predict)
-eval_accuracy = sum([eval_predict[i]==sets.eval.y[i] for i in range(len(eval_predict))])/len(eval_predict)
-test_accuracy = sum([test_predict[i]==sets.test.y[i] for i in range(len(test_predict))])/len(test_predict)
+train_accuracy = sum([train_predict[i] == sets.train.y[i] for i in range(len(train_predict))])/len(train_predict)
+eval_accuracy = sum([eval_predict[i] == sets.eval.y[i] for i in range(len(eval_predict))])/len(eval_predict)
+test_accuracy = sum([test_predict[i] == sets.test.y[i] for i in range(len(test_predict))])/len(test_predict)
 
 print("\n\n\nTrain Accuracy: {}".format(train_accuracy))
 print("Validation Accuracy: {}".format(eval_accuracy))
