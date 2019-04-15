@@ -6,7 +6,7 @@ class FeaturesSelector:
 
     LDA = 'lda'
     PCA = 'pca'
-    NO_REDUCTION = ''
+    NO_REDUCTION = 'no_reduction'
 
     """
     feat_sel = FeatureSelector(kind, n_comp)
