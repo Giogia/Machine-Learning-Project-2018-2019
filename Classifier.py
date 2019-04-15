@@ -20,7 +20,7 @@ class Classifier:
     LDA = 'lda'
     QDA = 'qda'
     LOGISTIC = 'logistic'
-    NAIVE_BAYES = 'naive_bayes'
+    GAUSSIAN_NAIVE_BAYES = 'gaussian_naive_bayes'
     LINEAR = 'linear'
 
     # create classifier object from SciKitLearn library
@@ -39,9 +39,9 @@ class Classifier:
         elif kind == Classifier.LOGISTIC:
             self.classifier = linear_model.LogisticRegression(**kwargs)
 
-        elif kind == Classifier.NAIVE_BAYES:
+        elif kind == Classifier.GAUSSIAN_NAIVE_BAYES:
             # TODO gaussian and complement naive bayes
-            self.classifier = naive_bayes.MultinomialNB(**kwargs)
+            self.classifier = naive_bayes.GaussianNB(**kwargs)
 
         elif kind == Classifier.SVM:
             self.classifier = svm.SVC(**kwargs)
