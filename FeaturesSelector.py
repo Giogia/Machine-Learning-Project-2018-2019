@@ -9,6 +9,7 @@ class FeaturesSelector:
     NO_REDUCTION = ''
 
     """
+    Usage
     feat_sel = FeatureSelector(kind, n_comp)
     kind -> FeatureSelector.LDA
             FeatureSelector.PCA
