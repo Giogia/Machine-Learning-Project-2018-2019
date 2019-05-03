@@ -1,7 +1,13 @@
 import tensorflow as tf
 from tensorflow import keras
 
-# TODO Ancora tutto, è una prova per vedere se si riusciva a instanziare solo la parte di feature extraction ed eliminare i dense layers
+"""
+Usage:
+feature_extractor = CNN()
+features = feature_extractor.extract(data)
+"""
+
+
 class CNN:
 
     def __init__(self):
@@ -21,8 +27,10 @@ class CNN:
                         ])
 
         self.model.load_weights('pretrained_model.h5')
-
         self.model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+    def extract(self, data):
+        return self.model.predict(data)
 
 
 feature_extractor = CNN()
