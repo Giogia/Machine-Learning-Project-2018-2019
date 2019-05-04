@@ -7,13 +7,13 @@ feature_extractor = CNN()
 features = feature_extractor.extract(data)
 """
 
+IMG_X, IMG_Y = 28, 28
 
 class CNN:
 
     def __init__(self):
 
-        img_x, img_y = 28, 28
-        input_shape = (img_x, img_y, 1)
+        input_shape = (IMG_X, IMG_Y, 1)
 
         self.model = keras.Sequential([
                         keras.layers.Conv2D(32, kernel_size=(5, 5), strides=(1, 1), input_shape=input_shape),
@@ -30,7 +30,8 @@ class CNN:
         self.model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
     def extract(self, data):
+
+        data = data.reshape(data.shape[0], IMG_X, IMG_Y, 1)
+
         return self.model.predict(data)
 
-
-feature_extractor = CNN()

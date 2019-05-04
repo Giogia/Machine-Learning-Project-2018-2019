@@ -1,5 +1,7 @@
-from Classifier import Classifier
 from DataHandler import load_data
+from CNN import CNN
+from FeaturesSelector import FeaturesSelector
+from Classifier import Classifier
 
 '''
 The default dictionary for the Linear Discriminant Analysis parameters in scikit-learn
@@ -23,7 +25,15 @@ lda_dict = {
     'tol': 0.0001,
 }
 
-sets, class_names = load_data(linearized=True)
+# linearized must be true if not using CNN
+sets, class_names = load_data(linearized=False)
+
+# Create features extractor
+feature_extractor = CNN()
+sets.train.x = feature_extractor.extract(sets.train.x)
+sets.eval.x = feature_extractor.extract(sets.eval.x)
+sets.test.x = feature_extractor.extract(sets.test.x)
+
 
 # Create Classifier
 lor_classifier = Classifier('lda', **lda_dict)
