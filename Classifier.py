@@ -8,7 +8,7 @@ NAIVE_BAYES = 'naive_bayes'
 LINEAR = 'linear'
 
 
-# interface class for classifiers
+# Interface class for classifiers
 class Classifier:
     """
     USAGE
@@ -23,7 +23,7 @@ class Classifier:
 
     """
 
-    # create classifier object from SciKitLearn library
+    # Create classifier object from SciKitLearn library
     def __init__(self, kind, **args):
 
         if kind == LINEAR:
@@ -49,12 +49,20 @@ class Classifier:
         else:
             raise NotImplementedError
 
-    # return training predictions and
-    def get_predictions(self, features, labels, eval_features=None):
+    # Return training predictions and evaluation or test prediction
+    def get_predictions(self, features, labels, eval_features=None, test_features=None):
 
         self.classifier.fit(features, labels)
 
-        if eval_features is None:
+        if eval_features is None and test_features is None:
             return self.classifier.predict(features)
-        else:
+
+        elif test_features is None:
             return self.classifier.predict(features), self.classifier.predict(eval_features)
+
+        elif eval_features is None:
+            return self.classifier.predict(features), self.classifier.predict(test_features)
+
+        else:
+            return self.classifier.predict(features), self.classifier.predict(eval_features), \
+                   self.classifier.predict(test_features)
