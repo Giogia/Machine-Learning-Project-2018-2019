@@ -25,21 +25,20 @@ lda_dict = {
     'tol': 0.0001,
 }
 
-# linearized must be true if not using CNN
-sets, class_names = load_data(linearized=False)
+# Linearized must be True if not using CNN otherwise False
+sets, class_names = load_data(eval_percentage=0.2, linearized=False)
 
 # Create features extractor
 feature_extractor = CNN()
-sets.train.x = feature_extractor.extract(sets.train.x)
-sets.eval.x = feature_extractor.extract(sets.eval.x)
-sets.test.x = feature_extractor.extract(sets.test.x)
 
+# Compute high level features
+sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x, sets.test.x)
 
 # Create Classifier
-lor_classifier = Classifier('lda', **lda_dict)
+classifier = Classifier('lda', **lda_dict)
 
 # Predict the training, evaluation and test set
-train_predict, eval_predict, test_predict = lor_classifier.get_predictions\
+train_predict, eval_predict, test_predict = classifier.get_predictions\
     (features=sets.train.x, labels=sets.train.y, eval_features=sets.eval.x, test_features=sets.test.x)
 
 train_accuracy = sum([train_predict[i] == sets.train.y[i] for i in range(len(train_predict))])/len(train_predict)

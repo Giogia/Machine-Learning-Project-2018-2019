@@ -4,10 +4,11 @@ from tensorflow import keras
 """
 Usage:
 feature_extractor = CNN()
-features = feature_extractor.extract(data)
+training_features, evaluation_features, test_features = feature_extractor.extract(training_data, evaluation_data, test_data)
 """
 
 IMG_X, IMG_Y = 28, 28
+
 
 class CNN:
 
@@ -29,9 +30,17 @@ class CNN:
         self.model.load_weights('pretrained_model.h5')
         self.model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
-    def extract(self, data):
+    def extract(self, *data):
 
-        data = data.reshape(data.shape[0], IMG_X, IMG_Y, 1)
+        sets = []
 
-        return self.model.predict(data)
+        for element in data:
+
+            # Reshape every set
+            element = element.reshape(element.shape[0], IMG_X, IMG_Y, 1)
+
+            # Append high level features to results array
+            sets.append(self.model.predict(element))
+
+        return sets
 
