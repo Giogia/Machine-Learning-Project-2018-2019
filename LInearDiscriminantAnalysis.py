@@ -38,10 +38,8 @@ sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x,
 classifier = Classifier('lda', **lda_dict)
 
 # Predict the training, evaluation and test set
-train_predict, eval_predict = classifier.get_predictions\
-    (features=sets.train.x, labels=sets.train.y, eval_features=sets.eval.x)
-
-test_predict = classifier. get_predictions(sets.test.x, sets.test.y)
+train_predict, eval_predict, test_predict = classifier.get_predictions\
+    (features=sets.train.x, labels=sets.train.y, eval_features=sets.eval.x, test_features=sets.test.x)
 
 train_accuracy = sum([train_predict[i] == sets.train.y[i] for i in range(len(train_predict))])/len(train_predict)
 eval_accuracy = sum([eval_predict[i] == sets.eval.y[i] for i in range(len(eval_predict))])/len(eval_predict)
