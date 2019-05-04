@@ -17,7 +17,7 @@ lda_dict = {
 '''
 
 lda_dict = {
-    'solver': 'svd',
+    'solver': 'lsqr',
     'shrinkage': None,
     'priors': None,
     'n_components': None,
