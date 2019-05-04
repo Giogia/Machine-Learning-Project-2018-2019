@@ -41,6 +41,7 @@ classifier = Classifier('lda', **lda_dict)
 train_predict, eval_predict, test_predict = classifier.get_predictions(features=sets.train.x,
                                                                        labels=sets.train.y,
                                                                        eval_features=sets.eval.x,
+                                                                       eval_labels=sets.eval.y,
                                                                        test_features=sets.test.x)
 
 train_accuracy = sum([train_predict[i] == sets.train.y[i] for i in range(len(train_predict))])/len(train_predict)

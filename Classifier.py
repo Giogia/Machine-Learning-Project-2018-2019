@@ -1,4 +1,5 @@
 from sklearn import linear_model, discriminant_analysis, naive_bayes, svm
+import numpy as np
 
 SVM = 'svm'
 LDA = 'lda'
@@ -54,7 +55,7 @@ class Classifier:
             raise NotImplementedError
 
     # Return training predictions and evaluation or test prediction
-    def get_predictions(self, features, labels, eval_features=None, test_features=None):
+    def get_predictions(self, features, labels, eval_features=None, eval_labels=None, test_features=None):
 
         self.classifier.fit(features, labels)
 
@@ -64,9 +65,13 @@ class Classifier:
         elif test_features is None:
             return self.classifier.predict(features), self.classifier.predict(eval_features)
 
-        elif eval_features is None:
-            return self.classifier.predict(features), self.classifier.predict(test_features)
-
         else:
-            return self.classifier.predict(features), self.classifier.predict(eval_features), \
-                   self.classifier.predict(test_features)
+            predictions = [self.classifier.predict(features), self.classifier.predict(eval_features)]
+
+            features = np.append(features, eval_features, axis=0)
+            labels = np.append(labels, eval_labels)
+
+            self.classifier.fit(features, labels)
+            predictions.append(self.classifier.predict(test_features))
+
+            return predictions
