@@ -28,7 +28,6 @@ class CNN:
                         ])
 
         self.model.load_weights('pretrained_model.h5')
-        self.model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
     def extract(self, *data):
 

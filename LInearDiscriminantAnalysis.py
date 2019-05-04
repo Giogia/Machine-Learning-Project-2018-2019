@@ -44,9 +44,9 @@ train_predict, eval_predict, test_predict = classifier.get_predictions(features=
                                                                        eval_labels=sets.eval.y,
                                                                        test_features=sets.test.x)
 
-train_accuracy = sum([train_predict[i] == sets.train.y[i] for i in range(len(train_predict))])/len(train_predict)
-eval_accuracy = sum([eval_predict[i] == sets.eval.y[i] for i in range(len(eval_predict))])/len(eval_predict)
-test_accuracy = sum([test_predict[i] == sets.test.y[i] for i in range(len(test_predict))])/len(test_predict)
+train_accuracy = sum([train_predict[i] == sets.train.y[i] for i in range(len(train_predict))]) / len(train_predict)
+eval_accuracy = sum([eval_predict[i] == sets.eval.y[i] for i in range(len(eval_predict))]) / len(eval_predict)
+test_accuracy = sum([test_predict[i] == sets.test.y[i] for i in range(len(test_predict))]) / len(test_predict)
 
 print("\nTrain Accuracy: {}".format(train_accuracy))
 print("Validation Accuracy: {}".format(eval_accuracy))

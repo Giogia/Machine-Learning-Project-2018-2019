@@ -21,8 +21,6 @@ class Classifier:
     or
     train_predictions, eval_predictions = classifier.get_predictions(set.train.x, set.train.y, eval_features=set.eval.x)
     or
-    train_predictions, test_predictions = classifier.get_predictions(set.train.x, set.train.y, test_features=set.test.x)
-    or
     train_predictions, eval_predictions, test_predictions = classifier.get_predictions(set.train.x, set.train.y,
                                                             eval_features=set.eval.x, test_features=set.test.x)
 
