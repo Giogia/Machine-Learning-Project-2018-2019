@@ -17,8 +17,6 @@ class Classifier:
 
     train_predictions = classifier.get_predictions(set.train.x, set.train.y)
     or
-    test_predictions = classifier.get_predictions(set.test.x, set.test.y)
-    or
     train_predictions, eval_predictions = classifier.get_predictions(set.train.x, set.train.y, set.eval.x)
 
     """
@@ -50,12 +48,19 @@ class Classifier:
             raise NotImplementedError
 
     # Return training predictions and evaluation or test prediction
-    def get_predictions(self, features, labels, eval_features=None):
+    def get_predictions(self, features, labels, eval_features=None, test_features=None):
 
         self.classifier.fit(features, labels)
 
-        if eval_features is None:
+        if eval_features is None and test_features is None:
             return self.classifier.predict(features)
 
-        else:
+        elif test_features is None:
             return self.classifier.predict(features), self.classifier.predict(eval_features)
+
+        elif eval_features is None:
+            return self.classifier.predict(features), self.classifier.predict(test_features)
+
+        else:
+            return self.classifier.predict(features), self.classifier.predict(eval_features), \
+                   self.classifier.predict(test_features)
