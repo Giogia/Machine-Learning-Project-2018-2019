@@ -2,6 +2,7 @@ from FeaturesSelector import FeaturesSelector
 from Classifier import Classifier
 from DataHandler import load_data
 from time import time
+import sys
 
 
 ################################################################################
@@ -15,6 +16,10 @@ log_file_name = 'forrest_' + str(time()).split('.')[0] + '.csv'
 with open(log_file_name, 'w') as log:
     # Creating the file and set the column names
     log.write("Classifier;FeatureSelector;NumFeature;TrainingAccuracy;ValidationAccuracy;TestAccuracy\n")
+
+# Preparing the files where to redirecty the standard error and the standard output
+sys.stdout = open('out.log', 'w')
+sys.stderr = open('err.log', 'w')
 
 # The default configuration of the parameters for the logistic regression
 lor_dict = {
