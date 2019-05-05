@@ -37,7 +37,7 @@ lor_dict = {
     'max_iter':100,         # maximum number of iterations
     'multi_class':'auto',   # 'ovr', 'multinomial' or 'auto'. We should use multinomial.
                             # If we use liblinear solver, we have to use ovr.
-    'verbose':0,            # 0,1 o 2. Levels of verbosity.
+    'verbose':1,            # 0,1 o 2. Levels of verbosity.
     'warm_start':False,     # It True it reuse the solution of previous fit.
     'n_jobs':None           # Number of processors used by the computation.
 }
@@ -47,7 +47,7 @@ lor_dict['max_iter'] = 700
 lor_dict['verbose'] = 0
 lor_dict['C'] = 0.5
 lor_dict['solver'] = 'lbfgs'
-lor_dict['n_jobs'] = 15
+lor_dict['n_jobs'] = 1
 
 # The default configuration of the parameters for the gaussian naive bayes
 gnb_dict = {
@@ -92,5 +92,5 @@ for cl_method in classification_methods:
             accuracies['eval'] = accuracies['eval'] / NUM_ATTEMPTS
             accuracies['test'] = accuracies['test'] / NUM_ATTEMPTS
 
-        with open(log_file_name, 'a') as log:
-            log.write("{};{};{};{:.4};{:.4};{:.4}\n".format(cl_method[0],fs_method,nf,accuracies['train'],accuracies['eval'],accuracies['test']))
+            with open(log_file_name, 'a') as log:
+                log.write("{};{};{};{:.4};{:.4};{:.4}\n".format(cl_method[0],fs_method,nf,accuracies['train'],accuracies['eval'],accuracies['test']))
