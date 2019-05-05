@@ -1,17 +1,22 @@
 from FeaturesSelector import FeaturesSelector
 from Classifier import Classifier
 from DataHandler import load_data
+from time import time
 
 
-################################### PARAMETERS ###################################
+################################################################################
+################################## PARAMETERS ##################################
+################################################################################
 
 NUM_ATTEMPTS = 5
 
-log_file_name = 'forrest.csv'
+# Preparing the file csv where to save the relevant data
+log_file_name = 'forrest_' + str(time()).split('.')[0] + '.csv'
 with open(log_file_name, 'w') as log:
-    # for resetting the log file
+    # Creating the file and set the column names
     log.write("Classifier;FeatureSelector;NumFeature;TrainingAccuracy;ValidationAccuracy;TestAccuracy\n")
 
+# The default configuration of the parameters for the logistic regression
 lor_dict = {
     'penalty':'l2',         # 'l1' or 'l2'
     'dual':False,           # True if #feature > #samples (only if l2 active)
@@ -37,12 +42,14 @@ lor_dict = {
     'n_jobs':None           # Number of processors used by the computation.
 }
 
+# The parameters of the logistic regression that are modified from the default value
 lor_dict['max_iter'] = 700
 lor_dict['verbose'] = 0
 lor_dict['C'] = 0.5
 lor_dict['solver'] = 'lbfgs'
 lor_dict['n_jobs'] = 15
 
+# The default configuration of the parameters for the gaussian naive bayes
 gnb_dict = {
     'priors':None,          # Array of dimension equal to the number of classes.
                             # It contins the prior distributionn of the classes.
@@ -51,21 +58,22 @@ gnb_dict = {
 
 # If more methods are added, let's add it here
 feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA, FeaturesSelector.LDA]
-# feature_selector_methods = [FeaturesSelector.NO_REDUCTION]
 classification_methods = [(Classifier.LOGISTIC,lor_dict), (Classifier.GAUSSIAN_NAIVE_BAYES,gnb_dict)]
 
 
-################################### SCRIPT ###################################
+################################################################################
+#################################### SCRIPT ####################################
+################################################################################
 
 for cl_method in classification_methods:
     for fs_method in feature_selector_methods:
         number_of_features = [0]
         if fs_method==FeaturesSelector.PCA:
-            # number_of_features = range(5,785,5)
-            number_of_features = range(5,10,5)
+            number_of_features = range(5,785,5)
+            # number_of_features = range(5,10,5)
         if fs_method==FeaturesSelector.LDA:
-            # number_of_features = range(1,10)
-            number_of_features = range(1,2)
+            number_of_features = range(1,10)
+            # number_of_features = range(1,2)
         
         for nf in number_of_features:
             # print("Method: {} \tNumber Feature: {}".format(fs_method,nf))
