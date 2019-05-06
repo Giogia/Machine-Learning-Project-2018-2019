@@ -31,9 +31,10 @@ class Classifier:
     # Create classifier object from SciKitLearn library
     def __init__(self, kind, **args):
 
+        self.kind = kind
+
         if kind == LINEAR:
-            # TODO find correct class for linear classifier
-            self.classifier = linear_model.RidgeClassifier(**args)
+            self.classifier = linear_model.LinearRegression(**args)
 
         elif kind == LDA:
             self.classifier = discriminant_analysis.LinearDiscriminantAnalysis(**args)

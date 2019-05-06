@@ -2,8 +2,11 @@ from FeaturesSelector import FeaturesSelector
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 
-# Set first number of feature selected
+# Set minimum number of feature selected
 START = 1
+
+# Set maximum number of feature selected
+END = 0
 
 # Set number of feature increment at each iterations
 STEP = 10
@@ -17,7 +20,11 @@ def tune(classifier, selector, sets):
     best_training_accuracy = 0
     best_validation_accuracy = 0
 
-    for i in range(START, sets.x.size, STEP):
+    global END
+
+    END = sets.train.x.shape[1]
+
+    for i in range(START, END, STEP):
 
         try:
             # Extract reduced features
@@ -35,7 +42,7 @@ def tune(classifier, selector, sets):
             training_error.append(1 - training_accuracy)
             validation_error.append(1 - validation_accuracy)
 
-            print("\rIteration: ".format(i), str(i), end="")
+            print("\rNumber of features: ".format(i), str(i), end="")
 
             # Print training error and best training error
             print("   Training error: ".format(1 - training_accuracy)
@@ -44,8 +51,8 @@ def tune(classifier, selector, sets):
             if training_accuracy > best_training_accuracy:
                 best_training_accuracy = training_accuracy
 
-            print("  (Best Training error".format(1 - best_training_accuracy)
-                  + str(best_training_accuracy) + ")", end="")
+            print("  (Best Training error: ".format(1 - best_training_accuracy)
+                  + str(1 - best_training_accuracy) + ")", end="")
 
             # Print validation error and best validation error
             print("   Validation error: ".format(1 - validation_accuracy)
@@ -54,21 +61,22 @@ def tune(classifier, selector, sets):
             if validation_accuracy > best_validation_accuracy:
                 best_validation_accuracy = validation_accuracy
 
-            print("  (Best Validation error".format(1 - best_validation_accuracy)
-                  + str(best_validation_accuracy) + ")", end="")
-
-            # Save best number of features approximated to step resolution (real value with step=1)
-            best_features_number = STEP * validation_error.index(min(validation_error))
+            print("  (Best Validation error: ".format(1 - best_validation_accuracy)
+                  + str(1 - best_validation_accuracy) + ")", end="")
 
         except KeyboardInterrupt:
 
             break
 
+    # Save best number of features approximated to step resolution (real value with step=1)
+    best_features_number = STEP * validation_error.index(min(validation_error))
+
     print("\nMinimum error for " + str(best_features_number) + " features")
 
-    plt.plot(range(0, sets.x.size-1, STEP), validation_error)
-    plt.plot(range(0, sets.x.size-1, STEP), training_error)
-    plt.show
+    plt.plot(range(0, END - 1, STEP), validation_error)
+    plt.plot(range(0, END - 1, STEP), training_error)
+    plt.show()
+    plt.savefig(classifier.kind + '_' + selector + '.png')
 
     return best_features_number
 

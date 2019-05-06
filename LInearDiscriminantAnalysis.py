@@ -1,7 +1,9 @@
 from DataHandler import load_data
 from CNN import CNN
+from HyperparameterTuning import tune
 from FeaturesSelector import FeaturesSelector
 from Classifier import Classifier
+
 
 '''
 The default dictionary for the Linear Discriminant Analysis parameters in scikit-learn
@@ -36,6 +38,12 @@ sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x,
 
 # Create Classifier
 classifier = Classifier('lda', **lda_dict)
+
+# Tune feature selector parameter, disable feature selector prints for visually
+optimal_features_number = tune(classifier, 'pca', sets)
+
+# Create feature selector
+feature_selector = FeaturesSelector('pca', optimal_features_number)
 
 # Predict the training, evaluation and test set
 train_predict, eval_predict, test_predict = classifier.get_predictions(features=sets.train.x,
