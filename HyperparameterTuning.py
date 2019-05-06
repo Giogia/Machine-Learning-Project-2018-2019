@@ -9,7 +9,7 @@ START = 1
 END = 0
 
 # Set number of feature increment at each iterations
-STEP = 10
+STEP = 5
 
 
 def tune(classifier, selector, sets):
@@ -73,10 +73,11 @@ def tune(classifier, selector, sets):
 
     print("\nMinimum error for " + str(best_features_number) + " features")
 
-    plt.plot(range(0, END - 1, STEP), validation_error)
-    plt.plot(range(0, END - 1, STEP), training_error)
+    plt.plot(range(0, END - 1, STEP), validation_error, label='validation error')
+    plt.plot(range(0, END - 1, STEP), training_error, label='training error')
+    plt.legend(loc='best')
     plt.show()
-    plt.savefig(classifier.kind + '_' + selector + '.png')
+    plt.savefig(classifier.kind + '_' + selector + 'prova.png')
 
     return best_features_number
 

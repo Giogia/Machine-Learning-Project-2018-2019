@@ -6,6 +6,7 @@ class FeaturesSelector:
 
     LDA = 'lda'
     PCA = 'pca'
+    ICA = 'ica'
     NO_REDUCTION = ''
 
     """
@@ -13,6 +14,7 @@ class FeaturesSelector:
     feat_sel = FeatureSelector(kind, n_comp)
     kind -> FeatureSelector.LDA
             FeatureSelector.PCA
+            FeatureSelector.ICA
             FeatureSelector.NO_REDUCTION
     using a kind different then the ones provided will generate a NotImplemented exception
     """
@@ -31,12 +33,17 @@ class FeaturesSelector:
             x_train_red = sets.train.x
             print("This is the shape of the evaluation set (with NO reduction): ", sets.eval.x.shape)
             x_eval_red = sets.eval.x
+
         else:
             if self.kind == FeaturesSelector.LDA:
                 selector = LinearDiscriminantAnalysis(n_components=self.n_comp)
 
             elif self.kind == FeaturesSelector.PCA:
                 selector = decomposition.PCA(n_components=self.n_comp)
+
+            elif self.kind == FeaturesSelector.ICA:
+                selector = decomposition.FastICA(n_components=self.n_comp)
+
             else:
                 raise NotImplementedError
 
