@@ -6,7 +6,6 @@ class FeaturesSelector:
 
     LDA = 'lda'
     PCA = 'pca'
-    ICA = 'ica'
     NO_REDUCTION = ''
 
     """
@@ -40,9 +39,6 @@ class FeaturesSelector:
 
             elif self.kind == FeaturesSelector.PCA:
                 selector = decomposition.PCA(n_components=self.n_comp)
-
-            elif self.kind == FeaturesSelector.ICA:
-                selector = decomposition.FastICA(n_components=self.n_comp)
 
             else:
                 raise NotImplementedError
