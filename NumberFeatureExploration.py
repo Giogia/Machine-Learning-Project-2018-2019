@@ -11,34 +11,34 @@ import sys
 # Number of attempts that have to be averaged
 NUM_ATTEMPTS = 5
 
-# Preparing the files where to redirecty the standard error and the standard output
+# Preparing the files where to redirect the standard error and the standard output
 # sys.stdout = open('out.log', 'w')
 # sys.stderr = open('err.log', 'w')
 
 # The default configuration of the parameters for the logistic regression
 lor_dict = {
-    'penalty': 'l2',  # 'l1' or 'l2'
-    'dual': False,  # True if #feature > #samples (only if l2 active)
-    'tol': 1e-4,  # tollerance for early stopping
-    'C': 1.0,  # inverse 8of the regularization term of LoR smaller values implies stronger regularization
+    'penalty': 'l2',        # 'l1' or 'l2'
+    'dual': False,          # True if #feature > #samples (only if l2 active)
+    'tol': 1e-4,            # tollerance for early stopping
+    'C': 1.0,               # inverse 8of the regularization term of LoR smaller values implies stronger regularization
     'fit_intercept': True,  # True if we want the Bias
-    'intercept_scaling': 1,  # Useful only when solver 'liblinear'.
-    # The higher it is, the less the bias are regularized, the bigger they can become
-    'class_weight': None,  # None,'balanced' or dict. For giving a weight to the various classes.
-    # Usefull if unbalanced datsets.
-    'random_state': None,  # Seed for initializing the random generator --> for experiments reproducibility
-    'solver': 'warn',  # 'newton-cg','lbfgs','liblinear','sag','saga'.
-    # 'liblinear' good for small datasets.
-    # 'sag' and 'saga' are faster on big datasets.
-    # 'liblinear' has a one-vs-rest approach, the others use multinnomials.
-    # 'newton-cg', 'lbfgs' and 'sag' use just L2 regularization.
-    # 'sag' and 'saga' guarantee a fast convergence if the features are approximated on the same scale.
-    'max_iter': 100,  # maximum number of iterations
+    'intercept_scaling': 1, # Useful only when solver 'liblinear'.
+                            # The higher it is, the less the bias are regularized, the bigger they can become
+    'class_weight': None,   # None,'balanced' or dict. For giving a weight to the various classes.
+                            # Usefull if unbalanced datsets.
+    'random_state': None,   # Seed for initializing the random generator --> for experiments reproducibility
+    'solver': 'warn',       # 'newton-cg','lbfgs','liblinear','sag','saga'.
+                            # 'liblinear' good for small datasets.
+                            # 'sag' and 'saga' are faster on big datasets.
+                            # 'liblinear' has a one-vs-rest approach, the others use multinnomials.
+                            # 'newton-cg', 'lbfgs' and 'sag' use just L2 regularization.
+                            # 'sag' and 'saga' guarantee a fast convergence if the features are approximated on the same scale.
+    'max_iter': 100,        # maximum number of iterations
     'multi_class': 'auto',  # 'ovr', 'multinomial' or 'auto'. We should use multinomial.
-    # If we use liblinear solver, we have to use ovr.
-    'verbose': 1,  # 0,1 o 2. Levels of verbosity.
-    'warm_start': False,  # It True it reuse the solution of previous fit.
-    'n_jobs': None  # Number of processors used by the computation.
+                            # If we use liblinear solver, we have to use ovr.
+    'verbose': 1,           # 0,1 o 2. Levels of verbosity.
+    'warm_start': False,    # It True it reuse the solution of previous fit.
+    'n_jobs': None          # Number of processors used by the computation.
 }
 
 # The parameters of the logistic regression that are modified from the default value
@@ -60,6 +60,7 @@ feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA,
 # feature_selector_methods = [FeaturesSelector.LDA]
 # classification_methods = [(Classifier.LOGISTIC,lor_dict), (Classifier.GAUSSIAN_NAIVE_BAYES,gnb_dict)]
 classification_methods = [(Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict)]
+
 
 ################################################################################
 #################################### SCRIPT ####################################
@@ -87,7 +88,7 @@ for cl_method in classification_methods:
 
         for nf in number_of_features:
 
-            print("Method: {} \tNumber Feature: {}".format(fs_method, nf))
+            # print("Method: {} \tNumber Feature: {}".format(fs_method, nf))
 
             accuracies = {'train': 0, 'eval': 0, 'test': 0}
 
