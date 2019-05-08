@@ -9,7 +9,7 @@ import sys
 ################################## PARAMETERS ##################################
 ################################################################################
 
-NUM_ATTEMPTS = 5
+NUM_ATTEMPTS = 1
 
 # Preparing the file csv where to save the relevant data
 log_file_name = 'forrest_' + str(time()).split('.')[0] + '.csv'
@@ -18,15 +18,15 @@ with open(log_file_name, 'w') as log:
     log.write("Classifier;FeatureSelector;NumFeature;TrainingAccuracy;ValidationAccuracy;TestAccuracy\n")
 
 # Preparing the files where to redirecty the standard error and the standard output
-sys.stdout = open('out.log', 'w')
-sys.stderr = open('err.log', 'w')
+# sys.stdout = open('out.log', 'w')
+# sys.stderr = open('err.log', 'w')
 
 # The default configuration of the parameters for the logistic regression
 lor_dict = {
     'penalty':'l2',         # 'l1' or 'l2'
     'dual':False,           # True if #feature > #samples (only if l2 active)
     'tol':1e-4,             # tollerance for early stopping
-    'C':1.0,                # inverse of the regularization term of LoR smaller values implies stronger regularization
+    'C':1.0,                # inverse 8of the regularization term of LoR smaller values implies stronger regularization
     'fit_intercept':True,   # True if we want the Bias
     'intercept_scaling':1,  # Useful only when solver 'liblinear'.
                             # The higher it is, the less the bias are regularized, the bigger they can become
@@ -62,9 +62,10 @@ gnb_dict = {
 }
 
 # If more methods are added, let's add it here
-feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA, FeaturesSelector.LDA]
-classification_methods = [(Classifier.LOGISTIC,lor_dict), (Classifier.GAUSSIAN_NAIVE_BAYES,gnb_dict)]
-
+# feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA, FeaturesSelector.LDA]
+feature_selector_methods = [FeaturesSelector.LDA]
+# classification_methods = [(Classifier.LOGISTIC,lor_dict), (Classifier.GAUSSIAN_NAIVE_BAYES,gnb_dict)]
+classification_methods = [(Classifier.GAUSSIAN_NAIVE_BAYES,gnb_dict)]
 
 ################################################################################
 #################################### SCRIPT ####################################
@@ -81,11 +82,13 @@ for cl_method in classification_methods:
             # number_of_features = range(1,2)
         
         for nf in number_of_features:
-            # print("Method: {} \tNumber Feature: {}".format(fs_method,nf))
+            print("Method: {} \tNumber Feature: {}".format(fs_method,nf))
             accuracies = {'train':0,'eval':0,'test':0}
             for _ in range(NUM_ATTEMPTS):
                 sets, class_names = load_data(linearized=True)
                 classifier = Classifier(cl_method[0],**cl_method[1])
+                selector = FeaturesSelector(fs_method,nf)
+                sets = selector.fit(sets)
                 train_predict, eval_predict = classifier.get_predictions(features=sets.train.x,labels=sets.train.y,eval_features=sets.eval.x)
                 test_predict = classifier.classifier.predict(sets.test.x)
 
