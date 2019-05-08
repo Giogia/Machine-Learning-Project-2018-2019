@@ -9,13 +9,8 @@ import sys
 ################################## PARAMETERS ##################################
 ################################################################################
 
-NUM_ATTEMPTS = 1
-
-# Preparing the file csv where to save the relevant data
-log_file_name = 'forrest_' + str(time()).split('.')[0] + '.csv'
-with open(log_file_name, 'w') as log:
-    # Creating the file and set the column names
-    log.write("Classifier;FeatureSelector;NumFeature;TrainingAccuracy;ValidationAccuracy;TestAccuracy\n")
+# Number of attempts that have to be averaged
+NUM_ATTEMPTS = 5
 
 # Preparing the files where to redirecty the standard error and the standard output
 # sys.stdout = open('out.log', 'w')
@@ -62,8 +57,8 @@ gnb_dict = {
 }
 
 # If more methods are added, let's add it here
-# feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA, FeaturesSelector.LDA]
-feature_selector_methods = [FeaturesSelector.LDA]
+feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA, FeaturesSelector.LDA]
+# feature_selector_methods = [FeaturesSelector.LDA]
 # classification_methods = [(Classifier.LOGISTIC,lor_dict), (Classifier.GAUSSIAN_NAIVE_BAYES,gnb_dict)]
 classification_methods = [(Classifier.GAUSSIAN_NAIVE_BAYES,gnb_dict)]
 
@@ -80,6 +75,12 @@ for cl_method in classification_methods:
         if fs_method==FeaturesSelector.LDA:
             number_of_features = range(1,10)
             # number_of_features = range(1,2)
+
+        # Preparinng the saving file
+        log_file_name = 'results/' + cl_method[0] + '_' + fs_method + '_' + str(time()).split('.')[0] + '.csv'
+        with open(log_file_name, 'w') as log:
+            # Creating the file and set the column names
+            log.write("NumFeature;TrainingAccuracy;ValidationAccuracy;TestAccuracy\n")
         
         for nf in number_of_features:
             print("Method: {} \tNumber Feature: {}".format(fs_method,nf))
@@ -101,4 +102,4 @@ for cl_method in classification_methods:
             accuracies['test'] = accuracies['test'] / NUM_ATTEMPTS
 
             with open(log_file_name, 'a') as log:
-                log.write("{};{};{};{:.4};{:.4};{:.4}\n".format(cl_method[0],fs_method,nf,accuracies['train'],accuracies['eval'],accuracies['test']))
+                log.write("{};{:.4};{:.4};{:.4}\n".format(sets.train.x.shape[1],accuracies['train'],accuracies['eval'],accuracies['test']))

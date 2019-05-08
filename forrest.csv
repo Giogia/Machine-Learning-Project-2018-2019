@@ -1,7 +1,0 @@
-Classifier;FeatureSelector;NumFeature;TrainingAccuracy;ValidationAccuracy;TestAccuracy
-logistic;no_reduction;0;0.628075;0.6264166666666666;0.61886
-logistic;pca;5;0.6287791666666667;0.6309833333333333;0.6212000000000001
-logistic;lda;1;0.6261375;0.6257666666666666;0.61884
-gaussian_naive_bayes;no_reduction;0;0.589675;0.5901;0.58818
-gaussian_naive_bayes;pca;5;0.5756375;0.5747166666666667;0.5748800000000001
-gaussian_naive_bayes;lda;1;0.5926583333333333;0.5959333333333333;0.59134

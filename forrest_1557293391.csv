@@ -1,2 +1,0 @@
-Classifier;FeatureSelector;NumFeature;TrainingAccuracy;ValidationAccuracy;TestAccuracy
-gaussian_naive_bayes;no_reduction;0;0.5906;0.5908;0.5889
