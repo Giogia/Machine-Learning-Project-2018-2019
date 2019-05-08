@@ -12,7 +12,7 @@ import sys
 ################################################################################
 
 # Number of attempts that have to be averaged
-NUM_ATTEMPTS = 1
+NUM_ATTEMPTS = 5
 USE_CNN = False
 
 # Preparing the files where to redirect the standard error and the standard output
@@ -81,7 +81,7 @@ for cl_method in classification_methods:
             # number_of_features = range(5,10,5)
 
         if fs_method == FeaturesSelector.LDA:
-            number_of_features = range(1, 2)
+            number_of_features = range(1, 10)
             # number_of_features = range(1,2)
 
         # Preparing the saving file
@@ -149,6 +149,8 @@ for cl_method in classification_methods:
         plt.scatter(nf_list,train_acc_list,label="training accuracy")
         plt.scatter(nf_list,eval_acc_list,label="validation accuracy")
         plt.scatter(nf_list,test_acc_list,label="test accuracy")
-        # plt.arrow(nf_max + 3, test_acc_max + 3, -3, -3)
-        # plt.legend(loc='best')
+        plt.annotate("Best Test Accuracy = {}".format(test_acc_max), xy=(nf_max, test_acc_max), xytext=(nf_max, test_acc_max -0.1),arrowprops=dict(facecolor='black', shrink=0.005),)
+        plt.legend(loc='best')
+        plt.title(log_file_name[8:-4])
+        plt.tight_layout()
         plt.savefig(log_file_name[:-4]+'.png')
