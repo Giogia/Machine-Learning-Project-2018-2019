@@ -67,24 +67,32 @@ classification_methods = [(Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict)]
 
 for cl_method in classification_methods:
     for fs_method in feature_selector_methods:
+
         number_of_features = [0]
+
         if fs_method == FeaturesSelector.PCA:
             number_of_features = range(5, 785, 5)
             # number_of_features = range(5,10,5)
+
         if fs_method == FeaturesSelector.LDA:
             number_of_features = range(1, 10)
             # number_of_features = range(1,2)
 
         # Preparing the saving file
         log_file_name = 'results/' + cl_method[0] + '_' + fs_method + '_' + str(time()).split('.')[0] + '.csv'
+
         with open(log_file_name, 'w') as log:
             # Creating the file and set the column names
             log.write("NumFeature;TrainingAccuracy;ValidationAccuracy;TestAccuracy\n")
 
         for nf in number_of_features:
+
             print("Method: {} \tNumber Feature: {}".format(fs_method, nf))
+
             accuracies = {'train': 0, 'eval': 0, 'test': 0}
+
             for _ in range(NUM_ATTEMPTS):
+
                 sets, class_names = load_data(linearized=True)
                 classifier = Classifier(cl_method[0], **cl_method[1])
                 selector = FeaturesSelector(fs_method, nf)
@@ -97,8 +105,10 @@ for cl_method in classification_methods:
 
                 accuracies['train'] = accuracies['train'] + sum(
                     [train_predict[i] == sets.train.y[i] for i in range(len(train_predict))]) / len(train_predict)
+
                 accuracies['eval'] = accuracies['eval'] + sum(
                     [eval_predict[i] == sets.eval.y[i] for i in range(len(eval_predict))]) / len(eval_predict)
+
                 accuracies['test'] = accuracies['test'] + sum(
                     [test_predict[i] == sets.test.y[i] for i in range(len(test_predict))]) / len(test_predict)
 
