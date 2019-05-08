@@ -1,14 +1,6 @@
 from sklearn import linear_model, discriminant_analysis, naive_bayes, svm
 import numpy as np
 
-SVM = 'svm'
-LDA = 'lda'
-QDA = 'qda'
-LOGISTIC = 'logistic'
-NAIVE_BAYES = 'naive_bayes'
-LINEAR = 'linear'
-
-
 # Interface class for classifiers
 class Classifier:
 
@@ -28,29 +20,35 @@ class Classifier:
 
     """
 
-    # Create classifier object from SciKitLearn library
-    def __init__(self, kind, **args):
+    SVM = 'svm'
+    LDA = 'lda'
+    QDA = 'qda'
+    LOGISTIC = 'logistic'
+    GAUSSIAN_NAIVE_BAYES = 'gaussian_naive_bayes'
+    LINEAR = 'linear'
 
-        self.kind = kind
+    # create classifier object from SciKitLearn library
+    def __init__(self, kind, **kwargs):
 
-        if kind == LINEAR:
-            self.classifier = linear_model.LinearRegression(**args)
+        if kind == Classifier.LINEAR:
+            # TODO find correct class for linear classifier
+            self.classifier = linear_model.RidgeClassifier(**kwargs)
 
-        elif kind == LDA:
-            self.classifier = discriminant_analysis.LinearDiscriminantAnalysis(**args)
+        elif kind == Classifier.LDA:
+            self.classifier = discriminant_analysis.LinearDiscriminantAnalysis(**kwargs)
 
-        elif kind == QDA:
-            self.classifier = discriminant_analysis.QuadraticDiscriminantAnalysis(**args)
+        elif kind == Classifier.QDA:
+            self.classifier = discriminant_analysis.QuadraticDiscriminantAnalysis(**kwargs)
 
-        elif kind == LOGISTIC:
-            self.classifier = linear_model.LogisticRegression(**args)
+        elif kind == Classifier.LOGISTIC:
+            self.classifier = linear_model.LogisticRegression(**kwargs)
 
-        elif kind == NAIVE_BAYES:
+        elif kind == Classifier.GAUSSIAN_NAIVE_BAYES:
             # TODO gaussian and complement naive bayes
-            self.classifier = naive_bayes.MultinomialNB(**args)
+            self.classifier = naive_bayes.GaussianNB(**kwargs)
 
-        elif kind == SVM:
-            self.classifier = svm.SVC(**args)
+        elif kind == Classifier.SVM:
+            self.classifier = svm.SVC(**kwargs)
 
         else:
             raise NotImplementedError

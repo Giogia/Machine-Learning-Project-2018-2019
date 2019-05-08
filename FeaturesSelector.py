@@ -6,14 +6,12 @@ class FeaturesSelector:
 
     LDA = 'lda'
     PCA = 'pca'
-    NO_REDUCTION = ''
+    NO_REDUCTION = 'no_reduction'
 
     """
-    Usage
     feat_sel = FeatureSelector(kind, n_comp)
     kind -> FeatureSelector.LDA
             FeatureSelector.PCA
-            FeatureSelector.ICA
             FeatureSelector.NO_REDUCTION
     using a kind different then the ones provided will generate a NotImplemented exception
     """
@@ -32,7 +30,8 @@ class FeaturesSelector:
             x_train_red = sets.train.x
             print("This is the shape of the evaluation set (with NO reduction): ", sets.eval.x.shape)
             x_eval_red = sets.eval.x
-
+            print("This is the shape of the test set (with NO reduction): ", sets.test.x.shape)
+            x_test_red = sets.test.x
         else:
             if self.kind == FeaturesSelector.LDA:
                 selector = LinearDiscriminantAnalysis(n_components=self.n_comp)
@@ -51,7 +50,11 @@ class FeaturesSelector:
             x_eval_red = selector.transform(sets.eval.x)
             print("This is the new dimension of the reduced eval data: ", x_eval_red.shape)
 
-        return sets.dup(x_train_red, x_eval_red)
+            print("This is the old dimension of the test data: ", sets.eval.x.shape)
+            x_test_red = selector.transform(sets.test.x)
+            print("This is the new dimension of the reduced test data: ", x_eval_red.shape)
+
+        return sets.dup(x_train_red, x_eval_red, x_test_red)
 
 
 
