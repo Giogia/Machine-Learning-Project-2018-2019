@@ -4,7 +4,6 @@ from DataHandler import load_data
 from time import time
 import sys
 
-
 ################################################################################
 ################################## PARAMETERS ##################################
 ################################################################################
@@ -51,9 +50,9 @@ lor_dict['n_jobs'] = 1
 
 # The default configuration of the parameters for the gaussian naive bayes
 gnb_dict = {
-    'priors':None,          # Array of dimension equal to the number of classes.
-                            # It contins the prior distributionn of the classes.
-    'var_smoothing':1e-9    # Do not touch :)
+    'priors': None,          # Array of dimension equal to the number of classes.
+                             # It contains the prior distributions of the classes.
+    'var_smoothing': 1e-9    # Do not touch :)
 }
 
 # If more methods are added, let's add it here
@@ -69,14 +68,14 @@ classification_methods = [(Classifier.GAUSSIAN_NAIVE_BAYES,gnb_dict)]
 for cl_method in classification_methods:
     for fs_method in feature_selector_methods:
         number_of_features = [0]
-        if fs_method==FeaturesSelector.PCA:
-            number_of_features = range(5,785,5)
+        if fs_method == FeaturesSelector.PCA:
+            number_of_features = range(5, 785, 5)
             # number_of_features = range(5,10,5)
-        if fs_method==FeaturesSelector.LDA:
-            number_of_features = range(1,10)
+        if fs_method == FeaturesSelector.LDA:
+            number_of_features = range(1, 10)
             # number_of_features = range(1,2)
 
-        # Preparinng the saving file
+        # Preparing the saving file
         log_file_name = 'results/' + cl_method[0] + '_' + fs_method + '_' + str(time()).split('.')[0] + '.csv'
         with open(log_file_name, 'w') as log:
             # Creating the file and set the column names
@@ -84,13 +83,18 @@ for cl_method in classification_methods:
         
         for nf in number_of_features:
             print("Method: {} \tNumber Feature: {}".format(fs_method,nf))
-            accuracies = {'train':0,'eval':0,'test':0}
+            accuracies = {'train': 0, 'eval': 0, 'test': 0}
             for _ in range(NUM_ATTEMPTS):
                 sets, class_names = load_data(linearized=True)
                 classifier = Classifier(cl_method[0],**cl_method[1])
                 selector = FeaturesSelector(fs_method,nf)
                 sets = selector.fit(sets)
-                train_predict, eval_predict = classifier.get_predictions(features=sets.train.x,labels=sets.train.y,eval_features=sets.eval.x)
+                train_predict, eval_predict = classifier.get_predictions(features=sets.train.x,
+                                                                         labels=sets.train.y,
+                                                                         eval_features=sets.eval.x,
+                                                                         eval_labels=sets.eval.y,
+                                                                         test_features=sets.test.x)
+
                 test_predict = classifier.classifier.predict(sets.test.x)
 
                 accuracies['train'] = accuracies['train'] + sum([train_predict[i] == sets.train.y[i] for i in range(len(train_predict))])/len(train_predict)
