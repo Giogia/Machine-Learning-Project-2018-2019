@@ -2,6 +2,9 @@ from FeaturesSelector import FeaturesSelector
 from Classifier import Classifier
 from DataHandler import load_data
 from time import time
+from CNN import CNN
+from matplotlib import pyplot as plt
+import numpy as np
 import sys
 
 ################################################################################
@@ -9,7 +12,8 @@ import sys
 ################################################################################
 
 # Number of attempts that have to be averaged
-NUM_ATTEMPTS = 5
+NUM_ATTEMPTS = 1
+USE_CNN = False
 
 # Preparing the files where to redirect the standard error and the standard output
 # sys.stdout = open('out.log', 'w')
@@ -56,8 +60,8 @@ gnb_dict = {
 }
 
 # If more methods are added, let's add it here
-feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA, FeaturesSelector.LDA]
-# feature_selector_methods = [FeaturesSelector.LDA]
+# feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA, FeaturesSelector.LDA]
+feature_selector_methods = [FeaturesSelector.LDA]
 # classification_methods = [(Classifier.LOGISTIC,lor_dict), (Classifier.GAUSSIAN_NAIVE_BAYES,gnb_dict)]
 classification_methods = [(Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict)]
 
@@ -71,12 +75,13 @@ for cl_method in classification_methods:
 
         number_of_features = [0]
 
+
         if fs_method == FeaturesSelector.PCA:
-            number_of_features = range(5, 785, 5)
+            number_of_features = range(5, 1024 if USE_CNN else 785, 5)
             # number_of_features = range(5,10,5)
 
         if fs_method == FeaturesSelector.LDA:
-            number_of_features = range(1, 10)
+            number_of_features = range(1, 2)
             # number_of_features = range(1,2)
 
         # Preparing the saving file
@@ -85,6 +90,8 @@ for cl_method in classification_methods:
         with open(log_file_name, 'w') as log:
             # Creating the file and set the column names
             log.write("NumFeature;TrainingAccuracy;ValidationAccuracy;TestAccuracy\n")
+
+        accuracy_log = []
 
         for nf in number_of_features:
 
@@ -95,6 +102,9 @@ for cl_method in classification_methods:
             for _ in range(NUM_ATTEMPTS):
 
                 sets, class_names = load_data(linearized=True)
+                if USE_CNN:
+                    feature_extractor = CNN()
+                    sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x, sets.test.x)
                 classifier = Classifier(cl_method[0], **cl_method[1])
                 selector = FeaturesSelector(fs_method, nf)
                 sets = selector.fit(sets)
@@ -117,7 +127,28 @@ for cl_method in classification_methods:
             accuracies['eval'] = accuracies['eval'] / NUM_ATTEMPTS
             accuracies['test'] = accuracies['test'] / NUM_ATTEMPTS
 
+            accuracy_log.append((nf,accuracies['train'],accuracies['eval'],accuracies['test']))
+
             with open(log_file_name, 'a') as log:
                 log.write(
                     "{};{:.4};{:.4};{:.4}\n".format(sets.train.x.shape[1], accuracies['train'], accuracies['eval'],
                                                     accuracies['test']))
+
+        # Plot the chart of the data using accuracy_log
+        nf_list         = [el[0] for el in accuracy_log]
+        train_acc_list  = [el[1] for el in accuracy_log]
+        eval_acc_list   = [el[2] for el in accuracy_log]
+        test_acc_list   = [el[3] for el in accuracy_log]
+
+        index = np.argmax(test_acc_list)
+        nf_max = nf_list[index]
+        test_acc_max = test_acc_list[index]
+
+
+
+        plt.scatter(nf_list,train_acc_list,label="training accuracy")
+        plt.scatter(nf_list,eval_acc_list,label="validation accuracy")
+        plt.scatter(nf_list,test_acc_list,label="test accuracy")
+        # plt.arrow(nf_max + 3, test_acc_max + 3, -3, -3)
+        # plt.legend(loc='best')
+        plt.savefig(log_file_name[:-4]+'.png')

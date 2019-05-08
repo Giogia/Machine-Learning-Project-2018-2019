@@ -17,6 +17,7 @@
 *.gz
 *.iso
 *.rar
+*.csv
 #*.tar
 *.zip
 
