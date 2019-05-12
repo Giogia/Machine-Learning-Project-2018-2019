@@ -31,8 +31,7 @@ class Classifier:
     def __init__(self, kind, **kwargs):
 
         if kind == Classifier.LINEAR:
-            # TODO find correct class for linear classifier
-            self.classifier = linear_model.RidgeClassifier(**kwargs)
+            self.classifier = linear_model.LinearRegression(**kwargs)
 
         elif kind == Classifier.LDA:
             self.classifier = discriminant_analysis.LinearDiscriminantAnalysis(**kwargs)
