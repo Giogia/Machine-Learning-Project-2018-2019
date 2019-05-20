@@ -44,6 +44,3 @@ class FeaturesSelector:
             x_test_red = selector.transform(sets.test.x)
 
         return sets.dup(x_train_red, x_eval_red, x_test_red)
-
-
-
