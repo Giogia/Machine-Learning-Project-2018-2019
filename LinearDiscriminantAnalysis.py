@@ -26,7 +26,7 @@ lda_dict = {
     'tol': 0.0001,
 }
 
-OPTIMAL_FEATURE_NUMBER_PCA = 500
+OPTIMAL_FEATURE_NUMBER_PCA = 900
 
 # Linearized must be True if not using CNN otherwise False
 sets, class_names = load_data(eval_percentage=0.2, linearized=False)
