@@ -26,7 +26,7 @@ lda_dict = {
     'tol': 0.0001,
 }
 
-OPTIMAL_FEATURE_NUMBER_PCA = 100
+OPTIMAL_FEATURE_NUMBER_PCA = 500
 
 # Linearized must be True if not using CNN otherwise False
 sets, class_names = load_data(eval_percentage=0.2, linearized=False)
@@ -42,6 +42,9 @@ classifier = Classifier(Classifier.LDA, **lda_dict)
 
 # Create feature selector
 feature_selector = FeaturesSelector(FeaturesSelector.PCA, OPTIMAL_FEATURE_NUMBER_PCA)
+
+# Extract most significant features
+sets = feature_selector.fit(sets)
 
 # Predict the training, evaluation and test set
 train_predict, eval_predict, test_predict = classifier.get_predictions(features=sets.train.x,
