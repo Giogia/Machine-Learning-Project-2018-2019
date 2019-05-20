@@ -2,6 +2,7 @@ from FeaturesSelector import FeaturesSelector
 from Classifier import Classifier
 from DataHandler import load_data
 from time import time
+import os
 from CNN import CNN
 from matplotlib import pyplot as plt
 import numpy as np
@@ -79,6 +80,9 @@ classification_methods = [(Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict)]
 ################################################################################
 #################################### SCRIPT ####################################
 ################################################################################
+
+if not os.path.exists('results'):
+    os.makedirs('results')
 
 for cl_method in classification_methods:
     for fs_method in feature_selector_methods:
