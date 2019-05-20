@@ -7,21 +7,17 @@ from Classifier import Classifier
 '''
 The default dictionary for the Linear Discriminant Analysis parameters in scikit-learn
 
-lda_dict = {
-    'solver': 'svd',             # 'svd', 'lsqr' or 'eigen'
-    'shrinkage': None,           # Optional: 'auto' or float:[0,1]
-    'priors': None,              # Class priors
-    'n_components': None,        # Optional: Number of components (< n_classes - 1) for dimensionality reduction.
-    'store_covariance': False,   # Additionally compute class covariance matrix, used only in ‘svd’ solver.
-    'tol': 0.0001,               # Threshold used for rank estimation in SVD solver.
+qda_dict = {
+    'priors' : None              # Array, shape = [n_classes], priors on classes
+    'reg_param' : 0.0            # Regularizes the covariance estimate as (1-reg_param)*Sigma + reg_param*np.eye(n_features)
+    'store_covariance' : False   # If True the covariance matrices are computed and stored in the self.covariance_ attribute
+    'tol' : 0.0001               # Threshold used for rank estimation.
 }
 '''
 
-lda_dict = {
-    'solver': 'lsqr',
-    'shrinkage': None,
+qda_dict = {
     'priors': None,
-    'n_components': None,
+    'reg_param': 0.0,
     'store_covariance': False,
     'tol': 0.0001,
 }
@@ -38,7 +34,7 @@ feature_extractor = CNN()
 sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x, sets.test.x)
 
 # Create Classifier
-classifier = Classifier(Classifier.LDA, **lda_dict)
+classifier = Classifier(Classifier.QDA, **qda_dict)
 
 # Create feature selector
 feature_selector = FeaturesSelector(FeaturesSelector.PCA, OPTIMAL_FEATURE_NUMBER_PCA)
