@@ -59,12 +59,22 @@ gnb_dict = {
     'var_smoothing': 1e-9  # Do not touch :)
 }
 
+lda_dict = {
+    'solver': 'lsqr',
+    'shrinkage': None,
+    'priors': None,
+    'n_components': None,
+    'store_covariance': False,
+    'tol': 0.0001,
+}
+
 # If more methods are added, let's add it here
 # feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA, FeaturesSelector.LDA]
+# feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA]
 feature_selector_methods = [FeaturesSelector.LDA]
 # classification_methods = [(Classifier.LOGISTIC,lor_dict), (Classifier.GAUSSIAN_NAIVE_BAYES,gnb_dict)]
 classification_methods = [(Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict)]
-
+# classification_methods = [(Classifier.LINEAR, lda_dict)]
 
 ################################################################################
 #################################### SCRIPT ####################################
@@ -74,7 +84,6 @@ for cl_method in classification_methods:
     for fs_method in feature_selector_methods:
 
         number_of_features = [0]
-
 
         if fs_method == FeaturesSelector.PCA:
             number_of_features = range(5, 1024 if USE_CNN else 785, 5)
@@ -104,7 +113,8 @@ for cl_method in classification_methods:
                 sets, class_names = load_data(linearized=True)
                 if USE_CNN:
                     feature_extractor = CNN()
-                    sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x, sets.test.x)
+                    sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x,
+                                                                                       sets.test.x)
                 classifier = Classifier(cl_method[0], **cl_method[1])
                 selector = FeaturesSelector(fs_method, nf)
                 sets = selector.fit(sets)
@@ -127,7 +137,7 @@ for cl_method in classification_methods:
             accuracies['eval'] = accuracies['eval'] / NUM_ATTEMPTS
             accuracies['test'] = accuracies['test'] / NUM_ATTEMPTS
 
-            accuracy_log.append((nf,accuracies['train'],accuracies['eval'],accuracies['test']))
+            accuracy_log.append((nf, accuracies['train'], accuracies['eval'], accuracies['test']))
 
             with open(log_file_name, 'a') as log:
                 log.write(
@@ -135,22 +145,21 @@ for cl_method in classification_methods:
                                                     accuracies['test']))
 
         # Plot the chart of the data using accuracy_log
-        nf_list         = [el[0] for el in accuracy_log]
-        train_acc_list  = [el[1] for el in accuracy_log]
-        eval_acc_list   = [el[2] for el in accuracy_log]
-        test_acc_list   = [el[3] for el in accuracy_log]
+        nf_list = [el[0] for el in accuracy_log]
+        train_acc_list = [el[1] for el in accuracy_log]
+        eval_acc_list = [el[2] for el in accuracy_log]
+        test_acc_list = [el[3] for el in accuracy_log]
 
         index = np.argmax(test_acc_list)
         nf_max = nf_list[index]
         test_acc_max = test_acc_list[index]
 
-
-
-        plt.scatter(nf_list,train_acc_list,label="training accuracy")
-        plt.scatter(nf_list,eval_acc_list,label="validation accuracy")
-        plt.scatter(nf_list,test_acc_list,label="test accuracy")
-        plt.annotate("Best Test Accuracy = {}".format(test_acc_max), xy=(nf_max, test_acc_max), xytext=(nf_max, test_acc_max -0.1),arrowprops=dict(facecolor='black', shrink=0.005),)
+        plt.scatter(nf_list, train_acc_list, label="training accuracy")
+        plt.scatter(nf_list, eval_acc_list, label="validation accuracy")
+        plt.scatter(nf_list, test_acc_list, label="test accuracy")
+        plt.annotate("Best Test Accuracy = {}".format(test_acc_max), xy=(nf_max, test_acc_max),
+                     xytext=(nf_max, test_acc_max - 0.1), arrowprops=dict(facecolor='black', shrink=0.005))
         plt.legend(loc='best')
         plt.title(log_file_name[8:-4])
         plt.tight_layout()
-        plt.savefig(log_file_name[:-4]+'.png')
+        plt.savefig(log_file_name[:-4] + '.png')
