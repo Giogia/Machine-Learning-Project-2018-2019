@@ -75,7 +75,7 @@ lda_dict = {
 feature_selector_methods = [FeaturesSelector.LDA]
 # classification_methods = [(Classifier.LOGISTIC,lor_dict), (Classifier.GAUSSIAN_NAIVE_BAYES,gnb_dict)]
 classification_methods = [(Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict)]
-# classification_methods = [(Classifier.LINEAR, lda_dict)]
+# classification_methods = [(Classifier.LDA, lda_dict)]
 
 ################################################################################
 #################################### SCRIPT ####################################
