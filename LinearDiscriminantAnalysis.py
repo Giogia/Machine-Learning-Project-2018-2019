@@ -26,16 +26,20 @@ lda_dict = {
     'tol': 0.0001,
 }
 
-OPTIMAL_FEATURE_NUMBER_PCA = 900
+# Optimal parameter without CNN
+OPTIMAL_FEATURE_NUMBER_PCA = 570
+
+# Optimal parameter with CNN
+# OPTIMAL_FEATURE_NUMBER_PCA = 570
 
 # Linearized must be True if not using CNN otherwise False
-sets, class_names = load_data(eval_percentage=0.2, linearized=False)
+sets, class_names = load_data(eval_percentage=0.2, linearized=True)
 
 # Create features extractor
-feature_extractor = CNN()
+# feature_extractor = CNN()
 
 # Compute high level features
-sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x, sets.test.x)
+# sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x, sets.test.x)
 
 # Create Classifier
 classifier = Classifier(Classifier.LDA, **lda_dict)

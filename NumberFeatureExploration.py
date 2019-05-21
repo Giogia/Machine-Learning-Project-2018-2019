@@ -149,7 +149,7 @@ for cl_method in classification_methods:
                                                     accuracies['test']))
 
         # Plot the chart of the data using accuracy_log
-        nf_list = [el[0] for el in accuracy_log]
+        nf_list = [int(el[0]) for el in accuracy_log]
         train_acc_list = [el[1] for el in accuracy_log]
         eval_acc_list = [el[2] for el in accuracy_log]
         test_acc_list = [el[3] for el in accuracy_log]
@@ -158,12 +158,22 @@ for cl_method in classification_methods:
         nf_max = nf_list[index]
         test_acc_max = test_acc_list[index]
 
-        plt.scatter(nf_list, train_acc_list, label="training accuracy")
-        plt.scatter(nf_list, eval_acc_list, label="validation accuracy")
-        plt.scatter(nf_list, test_acc_list, label="test accuracy")
-        plt.annotate("Best Test Accuracy = {}".format(test_acc_max), xy=(nf_max, test_acc_max),
-                     xytext=(nf_max, test_acc_max - 0.1), arrowprops=dict(facecolor='black', shrink=0.005))
+        plt.scatter(nf_list, train_acc_list, s=2, label="training accuracy")
+        plt.scatter(nf_list, eval_acc_list, s=2, label="validation accuracy")
+        plt.scatter(nf_list, test_acc_list, s=2, label="test accuracy")
+        #plt.annotate("Best Test Accuracy = {}".format(test_acc_max), xy=(nf_max, test_acc_max),
+                    # xytext=(nf_max, test_acc_max - 0.1), arrowprops=dict(facecolor='black', shrink=0.0005))
+
+        # Leave a space for description
+        plt.xlabel("\n")
+        plt.figtext(0.5, 0.05, "Best Number of Features = {}".format(nf_max if nf_max != 0 else 784)
+                    + "   Best Test Accuracy = {}".format(test_acc_max),
+                    wrap=True, horizontalalignment='center', fontsize=10)
+
+        plt.grid(True)
         plt.legend(loc='best')
+        plt.xticks(np.arange(0, max(nf_list), nf_list[0] if nf_list[0] != 0 else 1))
         plt.title(log_file_name[8:-4])
         plt.tight_layout()
         plt.savefig(log_file_name[:-4] + '.png')
+        plt.clf()
