@@ -218,7 +218,6 @@ for cl_method in classification_methods:
 
         plt.grid(True)
         plt.legend(loc='best')
-        plt.xticks(np.arange(0, max(nf_list), nf_list[0] if nf_list[0] != 0 else 1))
         plt.title(log_file_name[8:-4])
         plt.tight_layout()
         plt.savefig(log_file_name[:-4] + '.png')
