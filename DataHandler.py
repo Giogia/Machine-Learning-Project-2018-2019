@@ -7,6 +7,7 @@ STD_SCALER = 'std'
 
 
 def randomize(a, b):
+
     # Generate the permutation index array.
     s = np.arange(a.shape[0])
     np.random.shuffle(s)
@@ -29,7 +30,7 @@ def load_data(eval_percentage=0.2, linearized=True, scaler_kind=None):
 
     train_x, train_y = randomize(train_x, train_y)
 
-    # Qua la normalizzazione dei dati andrebbe messa come parametro della funzione perchè alcuni metodi tipo
+    # TODO Qua la normalizzazione dei dati andrebbe messa come parametro della funzione perchè alcuni metodi tipo
     # SVM ne richiedono una paticolare !
 
     if scaler_kind is None:

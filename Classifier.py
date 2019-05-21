@@ -1,6 +1,7 @@
 from sklearn import linear_model, discriminant_analysis, naive_bayes, svm
 import numpy as np
 
+
 # Interface class for classifiers
 class Classifier:
 
@@ -28,7 +29,7 @@ class Classifier:
     GAUSSIAN_NAIVE_BAYES = 'gaussian_naive_bayes'
     LINEAR = 'linear'
 
-    # create classifier object from SciKitLearn library
+    # Create classifier object from SciKitLearn library
     def __init__(self, kind, **kwargs):
 
         if kind == Classifier.LINEAR:
@@ -56,14 +57,18 @@ class Classifier:
     # Return training predictions and evaluation or test prediction
     def get_predictions(self, features, labels, eval_features=None, eval_labels=None, test_features=None):
 
-        self.classifier.fit(features, labels)  #here the model is trained
+        # Here the model is trained
+        self.classifier.fit(features, labels)
 
         if eval_features is None and test_features is None:
-            return self.classifier.predict(features)  #returns only the prediction of the training set
+
+            # Returns only the prediction of the training set
+            return self.classifier.predict(features)
 
         elif test_features is None:
-            return self.classifier.predict(features), self.classifier.predict(eval_features) #returns the predictions of both the
-                                                                                             #the training set and the evaluation set
+
+            # Returns the predictions of both the the training set and the evaluation set
+            return self.classifier.predict(features), self.classifier.predict(eval_features)
 
         else:
             predictions = [self.classifier.predict(features), self.classifier.predict(eval_features)]
@@ -71,7 +76,9 @@ class Classifier:
             features = np.append(features, eval_features, axis=0)
             labels = np.append(labels, eval_labels)
 
-            self.classifier.fit(features, labels) #here the model is re-trained because for the prediction of the test set
-                                                  #both the training and the evaluation set need to be used
+            # Here the model is re-trained because for the prediction of the test set
+            # Both the training and the evaluation set need to be used
+            self.classifier.fit(features, labels)
+
             predictions.append(self.classifier.predict(test_features))
             return predictions
