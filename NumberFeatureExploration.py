@@ -213,7 +213,7 @@ for cl_method in classification_methods:
         # Leave a space for description
         plt.xlabel("\n")
         plt.figtext(0.5, 0.05, "Best Number of Features = {}".format(nf_max if nf_max != 0 else 784)
-                    + "   Best Test Accuracy = {}".format(eval_acc_max),
+                    + "   Best Evaluation Accuracy = {}".format(eval_acc_max),
                     wrap=True, horizontalalignment='center', fontsize=10)
 
         plt.grid(True)
