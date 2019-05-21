@@ -11,13 +11,14 @@ class Classifier:
 
     train_predictions = classifier.get_predictions(set.train.x, set.train.y)
     or
-    train_predictions, eval_predictions = classifier.get_predictions(set.train.x, set.train.y, eval_features=set.eval.x)
+    train_predictions, eval_predictions = classifier.get_predictions(set.train.x,
+                                                                     set.train.y,
+                                                                     eval_features=set.eval.x)
     or
     train_predictions, eval_predictions, test_predictions = classifier.get_predictions(set.train.x, set.train.y,
                                                                                        eval_features=set.eval.x,
                                                                                        eval_labels=set.eval.y,
                                                                                        test_features=set.test.x)
-
     """
 
     SVM = 'svm'
@@ -55,13 +56,14 @@ class Classifier:
     # Return training predictions and evaluation or test prediction
     def get_predictions(self, features, labels, eval_features=None, eval_labels=None, test_features=None):
 
-        self.classifier.fit(features, labels)
+        self.classifier.fit(features, labels)  #here the model is trained
 
         if eval_features is None and test_features is None:
-            return self.classifier.predict(features)
+            return self.classifier.predict(features)  #returns only the prediction of the training set
 
         elif test_features is None:
-            return self.classifier.predict(features), self.classifier.predict(eval_features)
+            return self.classifier.predict(features), self.classifier.predict(eval_features) #returns the predictions of both the
+                                                                                             #the training set and the evaluation set
 
         else:
             predictions = [self.classifier.predict(features), self.classifier.predict(eval_features)]
@@ -69,7 +71,7 @@ class Classifier:
             features = np.append(features, eval_features, axis=0)
             labels = np.append(labels, eval_labels)
 
-            self.classifier.fit(features, labels)
+            self.classifier.fit(features, labels) #here the model is re-trained because for the prediction of the test set
+                                                  #both the training and the evaluation set need to be used
             predictions.append(self.classifier.predict(test_features))
-
             return predictions

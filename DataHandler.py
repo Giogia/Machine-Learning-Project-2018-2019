@@ -1,10 +1,12 @@
 from tensorflow import keras
 import numpy as np
 from Sets import Sets
+from sklearn.preprocessing import StandardScaler
+
+STD_SCALER = 'std'
 
 
 def randomize(a, b):
-
     # Generate the permutation index array.
     s = np.arange(a.shape[0])
     np.random.shuffle(s)
@@ -16,7 +18,7 @@ def randomize(a, b):
     return shuffled_a, shuffled_b
 
 
-def load_data(eval_percentage=0.2, linearized=True):
+def load_data(eval_percentage=0.2, linearized=True, scaler_kind=None):
     fashion_mnist = keras.datasets.fashion_mnist
 
     (train_x, train_y), (test_x, test_y) = fashion_mnist.load_data()
@@ -26,10 +28,19 @@ def load_data(eval_percentage=0.2, linearized=True):
         test_x = test_x.reshape((-1, 784))
 
     train_x, train_y = randomize(train_x, train_y)
-    train_x = train_x / 255.0
-    test_x = test_x / 255.0
 
-    limit = int(len(train_x)*eval_percentage)
+    # Qua la normalizzazione dei dati andrebbe messa come parametro della funzione perchè alcuni metodi tipo
+    # SVM ne richiedono una paticolare !
+
+    if scaler_kind is None:
+        train_x = train_x / 255.0
+        test_x = test_x / 255.0
+    elif scaler_kind == STD_SCALER:
+        scaler = StandardScaler()
+        train_x = scaler.fit_transform(train_x)
+        test_x = scaler.fit_transform(test_x)
+
+    limit = int(len(train_x) * eval_percentage)
     sets = Sets(train_x[limit:], train_y[limit:], train_x[:limit], train_y[:limit], test_x, test_y)
     class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                    'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
