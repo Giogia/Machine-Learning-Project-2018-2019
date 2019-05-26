@@ -64,17 +64,16 @@ class Classifier:
             raise NotImplementedError
 
     # Return training predictions and evaluation or test prediction
-    def get_predictions(self, features, labels, eval_features=None, eval_labels=None, test_features=None):
+    def get_predictions(self, features, labels, eval_features, eval_labels, test_features=None):
 
         # Here the model is trained
-        self.classifier.fit(features, labels)
+        if not isinstance(self.classifier, FCNN):
+            self.classifier.fit(features, labels)
 
-        if eval_features is None and test_features is None:
+        else:
+            self.classifier.fit(features, labels, eval_features, eval_labels)
 
-            # Returns only the prediction of the training set
-            return self.classifier.predict(features)
-
-        elif test_features is None:
+        if test_features is None:
 
             # Returns the predictions of both the the training set and the evaluation set
             return self.classifier.predict(features), self.classifier.predict(eval_features)
@@ -87,7 +86,11 @@ class Classifier:
 
             # Here the model is re-trained because for the prediction of the test set
             # Both the training and the evaluation set need to be used
-            self.classifier.fit(features, labels)
+            if isinstance(self.classifier, FCNN):
+                self.classifier.fit(features, labels, eval_features, eval_labels)
+
+            elif not isinstance(self.classifier, FCNN):
+                self.classifier.fit(features, labels)
 
             predictions.append(self.classifier.predict(test_features))
             return predictions

@@ -168,6 +168,7 @@ for cl_method in classification_methods:
 
                 accuracies['eval'] = accuracies['eval'] + sum(
                     [eval_predict[i] == sets.eval.y[i] for i in range(len(eval_predict))]) / len(eval_predict)
+                print("Attempt finished!")
 
             accuracies['train'] = accuracies['train'] / NUM_ATTEMPTS
             accuracies['eval'] = accuracies['eval'] / NUM_ATTEMPTS
@@ -229,5 +230,5 @@ for cl_method in classification_methods:
 
             accuracies['test'] = accuracies['test'] + sum(
                 [test_predict[i] == sets.test.y[i] for i in range(len(test_predict))]) / len(test_predict)
-
+            print("Attempt finished!")
         print("The test accuracy is: ", accuracies['test'] / NUM_ATTEMPTS)

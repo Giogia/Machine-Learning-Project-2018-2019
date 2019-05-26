@@ -24,16 +24,22 @@ class FCNN:
             keras.layers.Activation(tf.nn.softmax)
         ])
 
+        lr_dec = keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=4, verbose=1, mode='auto',
+                                                   min_delta=0.0001, cooldown=0, min_lr=0)
+        early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0.0001, patience=15, verbose=1,
+                                                   mode='auto', baseline=None, restore_best_weights=True)
         # Compile neural network
         self.network.compile(optimizer=self.optimizer,
                              loss=self.loss,
-                             metrics=self.metrics)
+                             metrics=self.metrics,
+                             callbacks=[lr_dec, early_stop])
 
-    def fit(self, features, labels):
+    def fit(self, features, labels, eval_x, eval_label):
         self.network.fit(features,
                          labels,
                          batch_size=self.batch_size,
                          epochs=self.epochs,
+                         validation_data=(eval_x, eval_label),
                          verbose=self.verbose)
 
     def predict(self, features):
