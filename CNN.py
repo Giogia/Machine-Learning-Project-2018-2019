@@ -17,13 +17,22 @@ class CNN:
         input_shape = (IMG_X, IMG_Y, 1)
 
         self.model = keras.Sequential([
-                        keras.layers.Conv2D(32, kernel_size=(5, 5), strides=(1, 1), input_shape=input_shape),
-                        keras.layers.Activation(tf.nn.relu),
-                        keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
-                        keras.layers.Conv2D(64, (5, 5)),
-                        keras.layers.Activation(tf.nn.relu),
-                        keras.layers.SpatialDropout2D(0.5),
-                        keras.layers.MaxPooling2D(pool_size=(2, 2)),
+                        keras.layers.Conv2D(64, kernel_size=(3, 3), activation='relu', padding='same', input_shape=input_shape),
+                        keras.layers.Conv2D(64, kernel_size=(3, 3), activation='relu', padding='same'),
+                        keras.layers.MaxPooling2D(pool_size=(2, 2), strides=2),
+                        keras.layers.Dropout(0.6),
+
+                        keras.layers.Conv2D(128, kernel_size=(2, 2), activation='relu'),
+                        keras.layers.Conv2D(128, kernel_size=(2, 2), activation='relu'),
+                        keras.layers.BatchNormalization(),
+                        keras.layers.MaxPooling2D(pool_size=(2, 2), strides=1),
+                        keras.layers.Dropout(0.6),
+
+                        keras.layers.Conv2D(256, kernel_size=(3, 3), activation='relu'),
+                        keras.layers.Conv2D(512, kernel_size=(4, 4), activation='relu'),
+                        keras.layers.BatchNormalization(),
+                        keras.layers.MaxPooling2D(pool_size=(2, 2), strides=1),
+                        keras.layers.Dropout(0.8),
                         keras.layers.Flatten()
                         ])
 

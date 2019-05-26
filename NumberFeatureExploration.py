@@ -99,7 +99,7 @@ lda_dict = {
 # feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA, FeaturesSelector.LDA]
 feature_selector_methods = [FeaturesSelector.NO_REDUCTION]
 # classification_methods = [(Classifier.LOGISTIC, lor_dict), (Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict), (Classifier.SVM, svm_dict)]
-classification_methods = [(Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict)]
+classification_methods = [(Classifier.SVM, svm_dict)]
 # classification_methods = [(Classifier.LDA, lda_dict)]
 
 ################################################################################
@@ -112,31 +112,25 @@ if not os.path.exists('results'):
 for cl_method in classification_methods:
     for fs_method in feature_selector_methods:
 
-        #number_of_features = [0]
         number_of_features = [1024 if USE_CNN else 784]
 
         if fs_method == FeaturesSelector.PCA:
             number_of_features = range(5, 1024 if USE_CNN else 785, 5)
-            # number_of_features = range(5,10,5)
 
         if fs_method == FeaturesSelector.LDA:
             number_of_features = range(1, 10)
-            # number_of_features = range(1,2)
 
         # Preparing the saving file
         log_file_name = 'results/' + cl_method[0] + '_' + fs_method + '_' + str(time()).split('.')[0] + '.csv'
 
         with open(log_file_name, 'w') as log:
             # Creating the file and set the column names
-            #log.write("NumFeature;TrainingAccuracy;ValidationAccuracy;TestAccuracy\n")
             log.write("NumFeature;TrainingAccuracy;ValidationAccuracy\n")
             print("The file has been created!")
 
         accuracy_log = []
 
         for nf in number_of_features:
-
-            # print("Method: {} \tNumber Feature: {}".format(fs_method, nf))
 
             accuracies = {'train': 0, 'eval': 0, 'test': 0}
 
@@ -160,11 +154,6 @@ for cl_method in classification_methods:
                 selector = FeaturesSelector(fs_method, nf)
                 sets = selector.fit(sets)
 
-                #train_predict, eval_predict, test_predict = classifier.get_predictions(features=sets.train.x,
-                 #                                                                      labels=sets.train.y,
-                  #                                                                     eval_features=sets.eval.x,
-                   #                                                                    eval_labels=sets.eval.y,
-                    #                                                                   test_features=sets.test.x)
                 train_predict, eval_predict = classifier.get_predictions(features=sets.train.x,
                                                                                        labels=sets.train.y,
                                                                                        eval_features=sets.eval.x,
@@ -177,28 +166,20 @@ for cl_method in classification_methods:
                 accuracies['eval'] = accuracies['eval'] + sum(
                     [eval_predict[i] == sets.eval.y[i] for i in range(len(eval_predict))]) / len(eval_predict)
 
-                #accuracies['test'] = accuracies['test'] + sum(
-                 #   [test_predict[i] == sets.test.y[i] for i in range(len(test_predict))]) / len(test_predict)
 
             accuracies['train'] = accuracies['train'] / NUM_ATTEMPTS
             accuracies['eval'] = accuracies['eval'] / NUM_ATTEMPTS
-            #accuracies['test'] = accuracies['test'] / NUM_ATTEMPTS
 
             accuracy_log.append((nf, accuracies['train'], accuracies['eval'], accuracies['test']))
 
             with open(log_file_name, 'a') as log:
                 log.write(
-                    #"{};{:.4};{:.4};{:.4}\n".format(nf, accuracies['train'], accuracies['eval'],
-                     #                               accuracies['test']))
                     "{};{:.4};{:.4}\n".format(nf, accuracies['train'], accuracies['eval']))
 
         # Plot the chart of the data using accuracy_log
         nf_list = [int(el[0]) for el in accuracy_log]
         train_acc_list = [el[1] for el in accuracy_log]
         eval_acc_list = np.array([el[2] for el in accuracy_log])
-        # test_acc_list   = [el[3] for el in accuracy_log]
-
-        #index = np.argmax(test_acc_list)
         index = np.argmax(eval_acc_list)
         nf_max = nf_list[index]
         # test_acc_max = test_acc_list[index]
@@ -206,9 +187,6 @@ for cl_method in classification_methods:
 
         plt.scatter(nf_list, train_acc_list, s=2, label="training accuracy")
         plt.scatter(nf_list, eval_acc_list, s=2, label="validation accuracy")
-        #plt.scatter(nf_list, test_acc_list, s=2, label="test accuracy")
-        # plt.annotate("Best Test Accuracy = {}".format(test_acc_max), xy=(nf_max, test_acc_max),
-        # xytext=(nf_max, test_acc_max - 0.1), arrowprops=dict(facecolor='black', shrink=0.0005))
 
         # Leave a space for description
         plt.xlabel("\n")
