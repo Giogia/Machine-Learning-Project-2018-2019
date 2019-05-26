@@ -49,7 +49,6 @@ class Classifier:
 
         elif kind == Classifier.LOGISTIC:
             self.classifier = linear_model.LogisticRegression(**kwargs)
-            self.kind = Classifier.LOGISTIC
 
         elif kind == Classifier.GAUSSIAN_NAIVE_BAYES:
             # TODO gaussian and complement naive bayes
