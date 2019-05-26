@@ -19,19 +19,22 @@ def randomize(a, b):
     return shuffled_a, shuffled_b
 
 
-def load_data(eval_percentage=0.2, linearized=True, scaler_kind=None):
+def load_data(eval_percentage=0.2, scaler_kind=None):
     fashion_mnist = keras.datasets.fashion_mnist
 
     (train_x, train_y), (test_x, test_y) = fashion_mnist.load_data()
 
-    if linearized:
-        train_x = train_x.reshape((-1, 784))
-        test_x = test_x.reshape((-1, 784))
+
+    train_x = train_x.reshape((-1, train_x.shape[1]*train_x.shape[2]))
+    test_x = test_x.reshape((-1, test_x.shape[1]*test_x.shape[2]))
 
     train_x, train_y = randomize(train_x, train_y)
 
     # TODO Qua la normalizzazione dei dati andrebbe messa come parametro della funzione perchè alcuni metodi tipo
     # SVM ne richiedono una paticolare !
+
+    train_x = train_x.astype(np.float)
+    test_x = test_x.astype(np.float)
 
     if scaler_kind is None:
         train_x = train_x / 255.0

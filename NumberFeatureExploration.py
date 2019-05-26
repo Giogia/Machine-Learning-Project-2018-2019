@@ -22,28 +22,28 @@ USE_CNN = False
 
 # The default configuration of the parameters for the logistic regression
 lor_dict = {
-    'penalty': 'l2',        # 'l1' or 'l2'
-    'dual': False,          # True if #feature > #samples (only if l2 active)
-    'tol': 1e-4,            # tollerance for early stopping
-    'C': 1.0,               # inverse 8of the regularization term of LoR smaller values implies stronger regularization
+    'penalty': 'l2',  # 'l1' or 'l2'
+    'dual': False,  # True if #feature > #samples (only if l2 active)
+    'tol': 1e-4,  # tollerance for early stopping
+    'C': 1.0,  # inverse 8of the regularization term of LoR smaller values implies stronger regularization
     'fit_intercept': True,  # True if we want the Bias
-    'intercept_scaling': 1, # Useful only when solver 'liblinear'.
-                            # The higher it is, the less the bias are regularized, the bigger they can become
-    'class_weight': None,   # None,'balanced' or dict. For giving a weight to the various classes.
-                            # Usefull if unbalanced datsets.
-    'random_state': None,   # Seed for initializing the random generator --> for experiments reproducibility
-    'solver': 'warn',       # 'newton-cg','lbfgs','liblinear','sag','saga'.
-                            # 'liblinear' good for small datasets.
-                            # 'sag' and 'saga' are faster on big datasets.
-                            # 'liblinear' has a one-vs-rest approach, the others use multinnomials.
-                            # 'newton-cg', 'lbfgs' and 'sag' use just L2 regularization.
-                            # 'sag' and 'saga' guarantee a fast convergence if the features are approximated on the same scale.
-    'max_iter': 100,        # maximum number of iterations
+    'intercept_scaling': 1,  # Useful only when solver 'liblinear'.
+    # The higher it is, the less the bias are regularized, the bigger they can become
+    'class_weight': None,  # None,'balanced' or dict. For giving a weight to the various classes.
+    # Usefull if unbalanced datsets.
+    'random_state': None,  # Seed for initializing the random generator --> for experiments reproducibility
+    'solver': 'warn',  # 'newton-cg','lbfgs','liblinear','sag','saga'.
+    # 'liblinear' good for small datasets.
+    # 'sag' and 'saga' are faster on big datasets.
+    # 'liblinear' has a one-vs-rest approach, the others use multinnomials.
+    # 'newton-cg', 'lbfgs' and 'sag' use just L2 regularization.
+    # 'sag' and 'saga' guarantee a fast convergence if the features are approximated on the same scale.
+    'max_iter': 100,  # maximum number of iterations
     'multi_class': 'auto',  # 'ovr', 'multinomial' or 'auto'. We should use multinomial.
-                            # If we use liblinear solver, we have to use ovr.
-    'verbose': 1,           # 0,1 o 2. Levels of verbosity.
-    'warm_start': False,    # It True it reuse the solution of previous fit.
-    'n_jobs': None          # Number of processors used by the computation.
+    # If we use liblinear solver, we have to use ovr.
+    'verbose': 1,  # 0,1 o 2. Levels of verbosity.
+    'warm_start': False,  # It True it reuse the solution of previous fit.
+    'n_jobs': None  # Number of processors used by the computation.
 }
 
 # The parameters of the logistic regression that are modified from the default value
@@ -55,29 +55,27 @@ lor_dict['n_jobs'] = 1
 
 # The default configuration of the parameters for the svm
 svm_dict = {
-    'C': 1.0, #Penalty parameter C of the error term.
-    'kernel': 'rbf', #Specifies the kernel type to be used in the algorithm. It must be one of ‘linear’, ‘poly’, ‘rbf’,
-                     #‘sigmoid’, ‘precomputed’
-    'degree': 2, #Degree of the polynomial kernel function (‘poly’). Ignored by all other kernels.
-    'gamma': 'auto', #Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid’.
-    'coef0': 0.0, #Independent term in kernel function. It is only significant in ‘poly’ and ‘sigmoid’.
-    'shrinking': True, #Whether to use the shrinking heuristic.
-    'probability': False, #Whether to enable probability estimates
-    'tol': 0.001, #Tolerance for stopping criterion.
-    'cache_size': 200, #Specify the size of the kernel cache (in MB)
-    'class_weight': None, #Set the parameter C of class i to class_weight[i]*C for SVC. If not given, all classes are
-                          #supposed to have weight one
-    'verbose': False, #Enable verbose output
-    'max_iter': -1, #Hard limit on iterations within solver, or -1 for no limit.
-    'decision_function_shape': 'ovr', #Whether to return a one-vs-rest (‘ovr’) decision function of shape (n_samples,
-                                      #n_classes) as all other classifiers, or the original one-vs-one (‘ovo’) decision
-                                      #function
-    'random_state': None, #The seed of the pseudo random number generator used when shuffling the data for probability
-                          #estimates
+    'C': 1.0,  # Penalty parameter C of the error term.
+    'kernel': 'rbf',
+# Specifies the kernel type to be used in the algorithm. It must be one of ‘linear’, ‘poly’, ‘rbf’,
+    # ‘sigmoid’, ‘precomputed’
+    'degree': 2,  # Degree of the polynomial kernel function (‘poly’). Ignored by all other kernels.
+    'gamma': 'auto',  # Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid’.
+    'coef0': 0.0,  # Independent term in kernel function. It is only significant in ‘poly’ and ‘sigmoid’.
+    'shrinking': True,  # Whether to use the shrinking heuristic.
+    'probability': False,  # Whether to enable probability estimates
+    'tol': 0.001,  # Tolerance for stopping criterion.
+    'cache_size': 200,  # Specify the size of the kernel cache (in MB)
+    'class_weight': None,  # Set the parameter C of class i to class_weight[i]*C for SVC. If not given, all classes are
+    # supposed to have weight one
+    'verbose': False,  # Enable verbose output
+    'max_iter': -1,  # Hard limit on iterations within solver, or -1 for no limit.
+    'decision_function_shape': 'ovr',  # Whether to return a one-vs-rest (‘ovr’) decision function of shape (n_samples,
+    # n_classes) as all other classifiers, or the original one-vs-one (‘ovo’) decision
+    # function
+    'random_state': None,  # The seed of the pseudo random number generator used when shuffling the data for probability
+    # estimates
 }
-
-# The parameters of the svm that are modified from the default value
-#NONE in this case
 
 # The default configuration of the parameters for the gaussian naive bayes
 gnb_dict = {
@@ -86,6 +84,7 @@ gnb_dict = {
     'var_smoothing': 1e-9  # Do not touch :)
 }
 
+# The default configuration of the parameters for the linear discriminant analysis
 lda_dict = {
     'solver': 'lsqr',
     'shrinkage': None,
@@ -95,11 +94,20 @@ lda_dict = {
     'tol': 0.0001,
 }
 
+# The default configuration of the parameters for the neural network
+nn_dict = {'batch_size': 128,
+           'epochs': 15,
+           'verbose': 0,
+           'optimizer': 'adam',
+           'loss': 'sparse_categorical_crossentropy',
+           'metrics': ['accuracy']}
+
 # If more methods are added, let's add it here
 # feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA, FeaturesSelector.LDA]
 feature_selector_methods = [FeaturesSelector.NO_REDUCTION]
-# classification_methods = [(Classifier.LOGISTIC, lor_dict), (Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict), (Classifier.SVM, svm_dict)]
-classification_methods = [(Classifier.SVM, svm_dict)]
+# classification_methods = [(Classifier.LOGISTIC, lor_dict), (Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict),
+# (Classifier.SVM, svm_dict), (Classifier.NEURAL_NETWORK, nn_dict)]
+classification_methods = [(Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict)]
 # classification_methods = [(Classifier.LDA, lda_dict)]
 
 ################################################################################
@@ -136,16 +144,12 @@ for cl_method in classification_methods:
 
             for _ in range(NUM_ATTEMPTS):
 
-                if cl_method == Classifier.SVM:
-                    sets, class_names = load_data(linearized=True, scaler_kind=STD_SCALER) #linearized must be et to
-                                                                                           #FALSE if you are using
-                                                                                           #the CNN
-                                                                                           # in this case a standardization is done
+                if cl_method[0] == Classifier.SVM:
+                    sets, class_names = load_data(scaler_kind=STD_SCALER)
+
                 else:
-                    sets, class_names = load_data(linearized=True) # linearized must be et to
-                                                                   # FALSE if you are using
-                                                                   # the CNN
-                                                                   # in this case a normalization is done
+                    sets, class_names = load_data()
+
                 if USE_CNN:
                     feature_extractor = CNN()
                     sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x,
@@ -155,17 +159,15 @@ for cl_method in classification_methods:
                 sets = selector.fit(sets)
 
                 train_predict, eval_predict = classifier.get_predictions(features=sets.train.x,
-                                                                                       labels=sets.train.y,
-                                                                                       eval_features=sets.eval.x,
-                                                                                       eval_labels=sets.eval.y)
-
+                                                                         labels=sets.train.y,
+                                                                         eval_features=sets.eval.x,
+                                                                         eval_labels=sets.eval.y)
 
                 accuracies['train'] = accuracies['train'] + sum(
                     [train_predict[i] == sets.train.y[i] for i in range(len(train_predict))]) / len(train_predict)
 
                 accuracies['eval'] = accuracies['eval'] + sum(
                     [eval_predict[i] == sets.eval.y[i] for i in range(len(eval_predict))]) / len(eval_predict)
-
 
             accuracies['train'] = accuracies['train'] / NUM_ATTEMPTS
             accuracies['eval'] = accuracies['eval'] / NUM_ATTEMPTS
@@ -201,19 +203,15 @@ for cl_method in classification_methods:
         plt.savefig(log_file_name[:-4] + '.png')
         plt.clf()
 
-        #Calculation of the best found model in the whole training set = train_set + eval_set
+        # Calculation of the best found model in the whole training set = train_set + eval_set
         for _ in range(NUM_ATTEMPTS):
 
             if cl_method == Classifier.SVM:
-                sets, class_names = load_data(linearized=True, scaler_kind=STD_SCALER)  # linearized must be et to
-                # FALSE if you are using
-                # the CNN
-                # in this case a standardization is done
+                sets, class_names = load_data(scaler_kind=STD_SCALER)
+
             else:
-                sets, class_names = load_data(linearized=True)  # linearized must be et to
-                # FALSE if you are using
-                # the CNN
-                # in this case a normalization is done
+                sets, class_names = load_data()
+
             if USE_CNN:
                 feature_extractor = CNN()
                 sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x,
@@ -232,5 +230,4 @@ for cl_method in classification_methods:
             accuracies['test'] = accuracies['test'] + sum(
                 [test_predict[i] == sets.test.y[i] for i in range(len(test_predict))]) / len(test_predict)
 
-        print("The test accuracy is: ", accuracies['test'])
-
+        print("The test accuracy is: ", accuracies['test'] / NUM_ATTEMPTS)

@@ -1,8 +1,13 @@
 from sklearn import linear_model, discriminant_analysis, naive_bayes, svm
+from FCNN import FCNN
 import numpy as np
+from tensorflow import keras
+
+import tensorflow as tf
 
 
 # Interface class for classifiers
+
 class Classifier:
 
     """
@@ -28,6 +33,7 @@ class Classifier:
     LOGISTIC = 'logistic'
     GAUSSIAN_NAIVE_BAYES = 'gaussian_naive_bayes'
     LINEAR = 'linear'
+    NEURAL_NETWORK = 'neural_network'
 
     # Create classifier object from SciKitLearn library
     def __init__(self, kind, **kwargs):
@@ -43,6 +49,7 @@ class Classifier:
 
         elif kind == Classifier.LOGISTIC:
             self.classifier = linear_model.LogisticRegression(**kwargs)
+            self.kind = Classifier.LOGISTIC
 
         elif kind == Classifier.GAUSSIAN_NAIVE_BAYES:
             # TODO gaussian and complement naive bayes
@@ -50,6 +57,9 @@ class Classifier:
 
         elif kind == Classifier.SVM:
             self.classifier = svm.SVC(**kwargs)
+
+        elif kind == Classifier.NEURAL_NETWORK:
+            self.classifier = FCNN(**kwargs)
 
         else:
             raise NotImplementedError
