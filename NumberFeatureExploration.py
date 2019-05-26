@@ -112,10 +112,10 @@ if not os.path.exists('results'):
 for cl_method in classification_methods:
     for fs_method in feature_selector_methods:
 
-        number_of_features = [1024 if USE_CNN else 784]
+        number_of_features = [12800 if USE_CNN else 784]
 
         if fs_method == FeaturesSelector.PCA:
-            number_of_features = range(5, 1024 if USE_CNN else 785, 5)
+            number_of_features = range(50, 12800 if USE_CNN else 785, 5)
 
         if fs_method == FeaturesSelector.LDA:
             number_of_features = range(1, 10)
@@ -138,9 +138,9 @@ for cl_method in classification_methods:
 
                 if cl_method == Classifier.SVM:
                     sets, class_names = load_data(linearized=True, scaler_kind=STD_SCALER) #linearized must be et to
-                                                                                                #FALSE if you are using
-                                                                                                #the CNN
-                                                                                                # in this case a standardization is done
+                                                                                           #FALSE if you are using
+                                                                                           #the CNN
+                                                                                           # in this case a standardization is done
                 else:
                     sets, class_names = load_data(linearized=True) # linearized must be et to
                                                                    # FALSE if you are using
