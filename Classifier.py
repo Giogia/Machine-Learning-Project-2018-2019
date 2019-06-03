@@ -76,7 +76,11 @@ class Classifier:
         if test_features is None:
 
             # Returns the predictions of both the the training set and the evaluation set
-            return self.classifier.predict(features), self.classifier.predict(eval_features)
+            predictions = [self.classifier.predict(features), self.classifier.predict(eval_features)]
+
+            return predictions \
+                if not isinstance(self.classifier, linear_model.LinearRegression) \
+                else [np.round(prediction).astype('uint8') for prediction in predictions]
 
         else:
             predictions = [self.classifier.predict(features), self.classifier.predict(eval_features)]
