@@ -93,4 +93,7 @@ class Classifier:
                 self.classifier.fit(features, labels)
 
             predictions.append(self.classifier.predict(test_features))
-            return predictions
+
+            return predictions \
+                if not isinstance(self.classifier, linear_model.LinearRegression) \
+                else [np.round(prediction).astype('uint8') for prediction in predictions]
