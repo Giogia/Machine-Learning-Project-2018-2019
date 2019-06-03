@@ -1,16 +1,18 @@
 import tensorflow as tf
 from tensorflow import keras
 
-"""
-Usage:
-feature_extractor = CNN()
-training_features, evaluation_features, test_features = feature_extractor.extract(training_data, evaluation_data, test_data)
-"""
-
 IMG_X, IMG_Y = 28, 28
 
 
 class CNN:
+
+    """
+    Usage:
+
+    feature_extractor = CNN()
+    training_features, evaluation_features, test_features = feature_extractor.extract(training_data, evaluation_data, test_data)
+
+    """
 
     def __init__(self):
 

@@ -4,25 +4,28 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 class FeaturesSelector:
 
-    LDA = 'lda'
-    PCA = 'pca'
-    NO_REDUCTION = 'no_reduction'
-
     """
+    Usage
+
     feat_sel = FeatureSelector(kind, n_comp)
     kind -> FeatureSelector.LDA
             FeatureSelector.PCA
             FeatureSelector.NO_REDUCTION
     using a kind different then the ones provided will generate a NotImplemented exception
+
+    After defining the object FeatureSelector (feat_sel), call the fit method by giving as input the sets objects,
+    it will return a new object with the "training x" and "eval x" reduced
+
     """
+
+    LDA = 'lda'
+    PCA = 'pca'
+    NO_REDUCTION = 'no_reduction'
+
     def __init__(self, kind, n_comp):
         self.kind = kind
         self.n_comp = n_comp
 
-    """
-    After defining the object FeatureSelector (feat_sel), call the fit method by giving as input the sets objects, 
-    it will return a new object with the "training x" and "eval x" reduced
-    """
     def fit(self, sets):
 
         if self.kind == FeaturesSelector.NO_REDUCTION:
