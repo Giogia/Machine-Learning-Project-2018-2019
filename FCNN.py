@@ -19,6 +19,8 @@ class FCNN:
             keras.layers.Dense(128),
             keras.layers.BatchNormalization(),
             keras.layers.Activation(tf.nn.relu),
+            keras.layers.Dropout(0.8),
+
             keras.layers.Dense(10),
             keras.layers.BatchNormalization(),
             keras.layers.Activation(tf.nn.softmax)
@@ -26,7 +28,7 @@ class FCNN:
 
         lr_dec = keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=4, verbose=1, mode='auto',
                                                    min_delta=0.0001, cooldown=0, min_lr=0)
-        early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0.0001, patience=15, verbose=1,
+        early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0.0001, patience=5, verbose=1,
                                                    mode='auto', baseline=None, restore_best_weights=True)
         # Compile neural network
         self.network.compile(optimizer=self.optimizer,
