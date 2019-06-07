@@ -110,15 +110,15 @@ if not os.path.exists('results'):
 for cl_method in classification_methods:
 
     if cl_method[0] == Classifier.SVM:
-        sets, class_names = load_data(scaler_kind=STD_SCALER)
+        sets_original, class_names = load_data(scaler_kind=STD_SCALER)
 
     else:
-        sets, class_names = load_data()
+        sets_original, class_names = load_data()
 
     if USE_CNN:
         feature_extractor = CNN()
-        sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x,
-                                                                           sets.test.x)
+        sets_original.train.x, sets_original.eval.x, sets_original.test.x = feature_extractor.extract(
+            sets_original.train.x, sets_original.eval.x, sets_original.test.x)
 
     for fs_method in feature_selector_methods:
 
@@ -146,7 +146,7 @@ for cl_method in classification_methods:
 
             for _ in range(NUM_ATTEMPTS):
 
-                sets = reshuffle(sets)
+                sets = reshuffle(sets_original)
 
                 classifier = Classifier(cl_method[0], **cl_method[1])
                 selector = FeaturesSelector(fs_method, nf)
@@ -201,16 +201,7 @@ for cl_method in classification_methods:
         # Calculation of the best found model in the whole training set = train_set + eval_set
         for _ in range(NUM_ATTEMPTS):
 
-            if cl_method == Classifier.SVM:
-                sets, class_names = load_data(scaler_kind=STD_SCALER)
-
-            else:
-                sets, class_names = load_data()
-
-            if USE_CNN:
-                feature_extractor = CNN()
-                sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x,
-                                                                                   sets.test.x)
+            sets = reshuffle(sets_original)
 
             classifier = Classifier(cl_method[0], **cl_method[1])
             selector = FeaturesSelector(fs_method, nf_max)
