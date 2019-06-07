@@ -3,23 +3,25 @@ from CNN import CNN
 from Classifier import Classifier
 from FeaturesSelector import FeaturesSelector
 
-'''
-The default dictionary for the Gaussian Naive Bayes parameters in scikit-learn
-
-gnb_dict = {
-    'priors': None,        # Array of dimension equal to the number of classes.
-                           # It contains the prior distributions of the classes.
-    'var_smoothing': 1e-9  # Do not touch :)
-}
-'''
-
-gnb_dict = {
-    'priors': None,
-    'var_smoothing': 1e-9
+svm_dict = {
+    'C': 1.0,
+    'kernel': 'rbf',
+    'degree': 2,
+    'gamma': 'auto',
+    'coef0': 0.0,
+    'shrinking': True,
+    'probability': False,
+    'tol': 0.001,
+    'cache_size': 200,
+    'class_weight': None,
+    'verbose': False,
+    'max_iter': -1,
+    'decision_function_shape': 'ovr',
+    'random_state': None,
 }
 
 USE_CNN = False
-OPTIMAL_FEATURE_NUMBER_LDA = 9
+OPTIMAL_FEATURE_NUMBER_PCA = 785 if not USE_CNN else 1000
 
 sets, class_names = load_data(eval_percentage=0.2)
 
@@ -29,9 +31,9 @@ if USE_CNN:
     feature_extractor = CNN()
     sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x, sets.test.x)
 
-gnb_classifier = Classifier(Classifier.GAUSSIAN_NAIVE_BAYES, **gnb_dict)
+gnb_classifier = Classifier(Classifier.SVM, **svm_dict)
 
-feature_selector = FeaturesSelector(FeaturesSelector.LDA, OPTIMAL_FEATURE_NUMBER_LDA)
+feature_selector = FeaturesSelector(FeaturesSelector.LDA, OPTIMAL_FEATURE_NUMBER_PCA)
 sets = feature_selector.fit(sets)
 
 train_predict, eval_predict, test_predict = gnb_classifier.get_predictions(features=sets.train.x,

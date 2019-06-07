@@ -1,4 +1,4 @@
-from DataHandler import load_data, STD_SCALER
+from DataHandler import load_data, STD_SCALER, reshuffle
 from CNN import CNN
 from Classifier import Classifier
 from FeaturesSelector import FeaturesSelector
@@ -15,7 +15,7 @@ import numpy as np
 
 # Number of attempts that have to be averaged
 NUM_ATTEMPTS = 5
-USE_CNN = False
+USE_CNN = True
 
 linear_dict = {
     'fit_intercept': True,
@@ -88,16 +88,17 @@ nn_dict = {
     'metrics': ['accuracy']
 }
 
-feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA, FeaturesSelector.LDA]
-
+feature_selector_methods = [FeaturesSelector.LDA] #FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA,
+"""
 classification_methods = [(Classifier.LINEAR, linear_dict),
                           (Classifier.LOGISTIC, lor_dict),
                           (Classifier.SVM, svm_dict),
                           (Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict),
-                          (Classifier.NEURAL_NETWORK, nn_dict)]
+                          (Classifier.NEURAL_NETWORK, nn_dict)] 
+"""
 
 # feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA]
-# classification_methods = [(Classifier.LDA, lda_dict), (Classifier.QDA, qda_dict)]
+classification_methods = [(Classifier.LDA, lda_dict), (Classifier.QDA, qda_dict)]
 
 ################################################################################
 #################################### SCRIPT ####################################
@@ -107,12 +108,24 @@ if not os.path.exists('results'):
     os.makedirs('results')
 
 for cl_method in classification_methods:
+
+    if cl_method[0] == Classifier.SVM:
+        sets, class_names = load_data(scaler_kind=STD_SCALER)
+
+    else:
+        sets, class_names = load_data()
+
+    if USE_CNN:
+        feature_extractor = CNN()
+        sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x,
+                                                                           sets.test.x)
+
     for fs_method in feature_selector_methods:
 
         number_of_features = [12800 if USE_CNN else 784]
 
         if fs_method == FeaturesSelector.PCA:
-            number_of_features = range(50, 12800, 100) if USE_CNN else range(5, 785, 5)
+            number_of_features = range(100, 12800, 100) if USE_CNN else range(5, 785, 5)
 
         if fs_method == FeaturesSelector.LDA:
             number_of_features = range(1, 10)
@@ -133,16 +146,8 @@ for cl_method in classification_methods:
 
             for _ in range(NUM_ATTEMPTS):
 
-                if cl_method[0] == Classifier.SVM:
-                    sets, class_names = load_data(scaler_kind=STD_SCALER)
+                sets = reshuffle(sets)
 
-                else:
-                    sets, class_names = load_data()
-
-                if USE_CNN:
-                    feature_extractor = CNN()
-                    sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x,
-                                                                                       sets.test.x)
                 classifier = Classifier(cl_method[0], **cl_method[1])
                 selector = FeaturesSelector(fs_method, nf)
                 sets = selector.fit(sets)

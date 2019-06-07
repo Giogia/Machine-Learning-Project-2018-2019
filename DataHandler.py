@@ -24,14 +24,10 @@ def load_data(eval_percentage=0.2, scaler_kind=None):
 
     (train_x, train_y), (test_x, test_y) = fashion_mnist.load_data()
 
-
     train_x = train_x.reshape((-1, train_x.shape[1]*train_x.shape[2]))
     test_x = test_x.reshape((-1, test_x.shape[1]*test_x.shape[2]))
 
     train_x, train_y = randomize(train_x, train_y)
-
-    # TODO Qua la normalizzazione dei dati andrebbe messa come parametro della funzione perchè alcuni metodi tipo
-    # SVM ne richiedono una paticolare !
 
     train_x = train_x.astype(np.float)
     test_x = test_x.astype(np.float)
@@ -50,3 +46,16 @@ def load_data(eval_percentage=0.2, scaler_kind=None):
                    'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
     return sets, class_names
+
+
+def reshuffle(sets, eval_percentage=0.2):
+
+    train_x = np.append(sets.train.x, sets.eval.x, axis=0)
+    train_y = np.append(sets.train.y, sets.eval.y, axis=0)
+
+    train_x, train_y = randomize(train_x, train_y)
+
+    limit = int(len(train_x) * eval_percentage)
+    sets = Sets(train_x[limit:], train_y[limit:], train_x[:limit], train_y[:limit], sets.test.x, sets.test.y)
+
+    return sets
