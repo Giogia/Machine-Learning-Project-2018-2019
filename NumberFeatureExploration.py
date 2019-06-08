@@ -122,10 +122,10 @@ for cl_method in classification_methods:
 
     for fs_method in feature_selector_methods:
 
-        number_of_features = [12800 if USE_CNN else 784]
+        number_of_features = [1024 if USE_CNN else 784]
 
         if fs_method == FeaturesSelector.PCA:
-            number_of_features = range(100, 12800, 100) if USE_CNN else range(5, 785, 5)
+            number_of_features = range(10, 1024, 10) if USE_CNN else range(5, 785, 5)
 
         if fs_method == FeaturesSelector.LDA:
             number_of_features = range(1, 10)
