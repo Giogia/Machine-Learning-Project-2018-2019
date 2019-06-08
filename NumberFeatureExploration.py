@@ -187,15 +187,16 @@ for cl_method in classification_methods:
         plt.scatter(nf_list, train_acc_list, s=2, label="training accuracy")
         plt.scatter(nf_list, eval_acc_list, s=2, label="validation accuracy")
 
+        """
         # Leave a space for description
         plt.xlabel("\n")
         plt.figtext(0.5, 0.01, "Best Number of Features = {}".format(nf_max)
                     + "   Best Evaluation Accuracy = {}".format(eval_acc_max),
                     wrap=True, horizontalalignment='center', fontsize=10)
-
+        plt.title(log_file_name[8:-4])
+        """
         plt.grid(True)
         plt.legend(loc='best')
-        plt.title(log_file_name[8:-4])
         plt.tight_layout()
         plt.savefig(log_file_name[:-4] + '.png')
         plt.clf()
