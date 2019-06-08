@@ -1,5 +1,5 @@
 from DataHandler import load_data
-from CNN import CNN
+from CNN_v1 import CNN
 from FeaturesSelector import FeaturesSelector
 from Classifier import Classifier
 

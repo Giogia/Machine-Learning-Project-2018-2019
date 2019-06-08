@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, r2_score
 
 from DataHandler import load_data
-from CNN import CNN
+from CNN_v1 import CNN
 from Classifier import Classifier
 from FeaturesSelector import FeaturesSelector
 

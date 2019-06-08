@@ -38,7 +38,7 @@ class CNN:
                         keras.layers.Flatten()
                         ])
 
-        self.model.load_weights('pretrained_model.h5')
+        self.model.load_weights('pretrained_model_v2.h5')
 
     def extract(self, *data):
 

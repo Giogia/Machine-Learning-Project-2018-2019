@@ -1,5 +1,5 @@
 from DataHandler import load_data, STD_SCALER, reshuffle
-from CNN import CNN
+from CNN_v1 import CNN
 from Classifier import Classifier
 from FeaturesSelector import FeaturesSelector
 
