@@ -132,7 +132,7 @@ for cl_method in classification_methods:
             number_of_features = range(1, 10)
 
         # Preparing the saving file
-        log_file_name = 'results/' + cl_method[0] + '_' + fs_method + '_cnn' if USE_CNN else '' + '.csv'
+        log_file_name = 'results/' + cl_method[0] + '_' + fs_method + ('_cnn' if USE_CNN else '') + '.csv'
         print(log_file_name)
 
         with open(log_file_name, 'w') as log:
@@ -218,7 +218,7 @@ for cl_method in classification_methods:
 
             accuracies['test'] = accuracies['test'] + sum(
                 [test_predict[i] == sets.test.y[i] for i in range(len(test_predict))]) / len(test_predict)
-            print("Attempt finished!")
+            #print("Attempt finished!")
 
         with open(log_file_name, 'a') as log:
             log.write(
