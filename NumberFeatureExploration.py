@@ -36,7 +36,7 @@ lor_dict = {
     'solver': 'warn',
     'max_iter': 100,
     'multi_class': 'auto',
-    'verbose': 1,
+    'verbose': 0,
     'warm_start': False,
     'n_jobs': None
 }
@@ -88,17 +88,18 @@ nn_dict = {
     'metrics': ['accuracy']
 }
 
-feature_selector_methods = [FeaturesSelector.LDA] #FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA,
-"""
-classification_methods = [(Classifier.LINEAR, linear_dict),
-                          (Classifier.LOGISTIC, lor_dict),
-                          (Classifier.SVM, svm_dict),
+feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.LDA, FeaturesSelector.PCA]
+
+classification_methods = [(Classifier.LOGISTIC, lor_dict),
                           (Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict),
-                          (Classifier.NEURAL_NETWORK, nn_dict)] 
+                          (Classifier.NEURAL_NETWORK, nn_dict)]
+"""
+                          (Classifier.LINEAR, linear_dict),
+                          (Classifier.SVM, svm_dict),
 """
 
 # feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA]
-classification_methods = [(Classifier.LDA, lda_dict), (Classifier.QDA, qda_dict)]
+# classification_methods = [(Classifier.LDA, lda_dict), (Classifier.QDA, qda_dict)]
 
 ################################################################################
 #################################### SCRIPT ####################################
@@ -131,7 +132,8 @@ for cl_method in classification_methods:
             number_of_features = range(1, 10)
 
         # Preparing the saving file
-        log_file_name = 'results/' + cl_method[0] + '_' + fs_method + '_' + str(time()).split('.')[0] + '.csv'
+        log_file_name = 'results/' + cl_method[0] + '_' + fs_method + '_cnn' if USE_CNN else '' + '.csv'
+        print(log_file_name)
 
         with open(log_file_name, 'w') as log:
             # Creating the file and set the column names
@@ -162,7 +164,7 @@ for cl_method in classification_methods:
 
                 accuracies['eval'] = accuracies['eval'] + sum(
                     [eval_predict[i] == sets.eval.y[i] for i in range(len(eval_predict))]) / len(eval_predict)
-                print("Attempt finished!")
+                #print("Attempt finished!")
 
             accuracies['train'] = accuracies['train'] / NUM_ATTEMPTS
             accuracies['eval'] = accuracies['eval'] / NUM_ATTEMPTS
@@ -187,7 +189,7 @@ for cl_method in classification_methods:
 
         # Leave a space for description
         plt.xlabel("\n")
-        plt.figtext(0.5, 0.05, "Best Number of Features = {}".format(nf_max if nf_max != 0 else 784)
+        plt.figtext(0.5, 0.01, "Best Number of Features = {}".format(nf_max)
                     + "   Best Evaluation Accuracy = {}".format(eval_acc_max),
                     wrap=True, horizontalalignment='center', fontsize=10)
 
@@ -216,4 +218,8 @@ for cl_method in classification_methods:
             accuracies['test'] = accuracies['test'] + sum(
                 [test_predict[i] == sets.test.y[i] for i in range(len(test_predict))]) / len(test_predict)
             print("Attempt finished!")
+
+        with open(log_file_name, 'a') as log:
+            log.write(
+                "{};{};{:.4}\n".format(nf_max, 'test', accuracies['test'] / NUM_ATTEMPTS))
         print("The test accuracy is: ", accuracies['test'] / NUM_ATTEMPTS)
