@@ -1,7 +1,28 @@
-from DataHandler import load_data
-from CNN_v1 import CNN
-from Classifier import Classifier
-from FeaturesSelector import FeaturesSelector
+from src.CNN_v1 import CNN
+from src.Classifier import Classifier
+from src.DataHandler import load_data
+from src.FeaturesSelector import FeaturesSelector
+
+'''
+The default dictionary for the Support Vector Machine parameters in scikit-learn
+
+svm_dict = {
+    'C': 1.0,                          # Penalty parameter C of the error term.
+    'kernel': 'rbf',                   # Specifies the kernel type to be used in the algorithm. It must be one of ‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’
+    'degree': 2,                       # Degree of the polynomial kernel function (‘poly’). Ignored by all other kernels.
+    'gamma': 'auto',                   # Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid’.
+    'coef0': 0.0,                      # Independent term in kernel function. It is only significant in ‘poly’ and ‘sigmoid’.
+    'shrinking': True,                 # Whether to use the shrinking heuristic.
+    'probability': False,              # Whether to enable probability estimates.
+    'tol': 0.001,                      # Tolerance for stopping criterion.
+    'cache_size': 200,                 # Specify the size of the kernel cache (in MB).
+    'class_weight': None,              # Set the parameter C of class i to class_weight[i]*C for SVC. If not given, all classes are supposed to have weight one.
+    'verbose': False,                  # Enable verbose output.
+    'max_iter': -1,                    # Hard limit on iterations within solver, or -1 for no limit.
+    'decision_function_shape': 'ovr',  # return a one-vs-rest (‘ovr’) decision function or the original one-vs-one (‘ovo’) decision function of libsvm 
+    'random_state': None,              # The seed of the pseudo random number generator used when shuffling the data for probability estimates.
+}
+'''
 
 svm_dict = {
     'C': 1.0,

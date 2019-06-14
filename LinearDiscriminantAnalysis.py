@@ -1,7 +1,7 @@
-from DataHandler import load_data
-from CNN_v1 import CNN
-from FeaturesSelector import FeaturesSelector
-from Classifier import Classifier
+from src.CNN_v1 import CNN
+from src.Classifier import Classifier
+from src.DataHandler import load_data
+from src.FeaturesSelector import FeaturesSelector
 
 '''
 The default dictionary for the Linear Discriminant Analysis parameters in scikit-learn

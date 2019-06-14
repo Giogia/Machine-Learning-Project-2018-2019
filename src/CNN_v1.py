@@ -1,3 +1,5 @@
+import os
+
 import tensorflow as tf
 from tensorflow import keras
 
@@ -29,7 +31,7 @@ class CNN:
                         keras.layers.Flatten()
                         ])
 
-        self.model.load_weights('pretrained_model_v1.h5')
+        self.model.load_weights(os.path.join('model', 'pretrained_model_v1.h5'))
 
     def extract(self, *data):
 

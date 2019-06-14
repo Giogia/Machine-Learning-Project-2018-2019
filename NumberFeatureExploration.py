@@ -1,13 +1,12 @@
-from DataHandler import load_data, STD_SCALER, reshuffle
-from CNN_v1 import CNN
-from Classifier import Classifier
-from FeaturesSelector import FeaturesSelector
-
-from time import time
 import os
-from matplotlib import pyplot as plt
-import numpy as np
 
+import numpy as np
+from matplotlib import pyplot as plt
+
+from src.CNN_v1 import CNN
+from src.Classifier import Classifier
+from src.DataHandler import load_data, STD_SCALER, reshuffle
+from src.FeaturesSelector import FeaturesSelector
 
 ################################################################################
 ################################## PARAMETERS ##################################
@@ -88,22 +87,19 @@ nn_dict = {
     'metrics': ['accuracy']
 }
 
-feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.LDA, FeaturesSelector.PCA]
-
-classification_methods = [(Classifier.LOGISTIC, lor_dict),
-                          (Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict),
-                          (Classifier.NEURAL_NETWORK, nn_dict)]
-"""
-                          (Classifier.LINEAR, linear_dict),
-                          (Classifier.SVM, svm_dict),
-"""
-
-# feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.PCA]
-# classification_methods = [(Classifier.LDA, lda_dict), (Classifier.QDA, qda_dict)]
-
 ################################################################################
 #################################### SCRIPT ####################################
 ################################################################################
+
+# Test listed classifiers. Find optimal features for with PCA, LDA
+feature_selector_methods = [FeaturesSelector.NO_REDUCTION, FeaturesSelector.LDA, FeaturesSelector.PCA]
+classification_methods = [(Classifier.LOGISTIC, lor_dict),
+                          (Classifier.GAUSSIAN_NAIVE_BAYES, gnb_dict),
+                          (Classifier.NEURAL_NETWORK, nn_dict),
+                          (Classifier.LINEAR, linear_dict),
+                          (Classifier.SVM, svm_dict),
+                          (Classifier.LDA, lda_dict),
+                          (Classifier.QDA, qda_dict)]
 
 if not os.path.exists('results'):
     os.makedirs('results')

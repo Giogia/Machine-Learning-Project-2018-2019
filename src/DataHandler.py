@@ -1,7 +1,8 @@
-from tensorflow import keras
 import numpy as np
-from Sets import Sets
 from sklearn.preprocessing import StandardScaler
+from tensorflow import keras
+
+from src.Sets import Sets
 
 STD_SCALER = 'std'
 

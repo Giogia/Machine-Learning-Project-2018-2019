@@ -1,13 +1,10 @@
-from sklearn import linear_model, discriminant_analysis, naive_bayes, svm
-from FCNN import FCNN
 import numpy as np
-from tensorflow import keras
+from sklearn import linear_model, discriminant_analysis, naive_bayes, svm
 
-import tensorflow as tf
+from src.FCNN import FCNN
 
 
 # Interface class for classifiers
-
 class Classifier:
 
     """
@@ -51,7 +48,6 @@ class Classifier:
             self.classifier = linear_model.LogisticRegression(**kwargs)
 
         elif kind == Classifier.GAUSSIAN_NAIVE_BAYES:
-            # TODO gaussian and complement naive bayes
             self.classifier = naive_bayes.GaussianNB(**kwargs)
 
         elif kind == Classifier.SVM:
@@ -66,7 +62,7 @@ class Classifier:
     # Return training predictions and evaluation or test prediction
     def get_predictions(self, features, labels, eval_features, eval_labels, test_features=None):
 
-        # Here the model is trained
+        # Train the model
         if not isinstance(self.classifier, FCNN):
             self.classifier.fit(features, labels)
 

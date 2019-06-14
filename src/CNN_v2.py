@@ -1,4 +1,5 @@
-import tensorflow as tf
+import os
+
 from tensorflow import keras
 
 IMG_X, IMG_Y = 28, 28
@@ -38,7 +39,7 @@ class CNN:
                         keras.layers.Flatten()
                         ])
 
-        self.model.load_weights('pretrained_model_v2.h5')
+        self.model.load_weights(os.path.join('model', 'pretrained_model_v2.h5'))
 
     def extract(self, *data):
 
