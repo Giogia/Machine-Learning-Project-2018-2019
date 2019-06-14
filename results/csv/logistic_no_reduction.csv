@@ -1,0 +1,3 @@
+NumFeature;TrainingAccuracy;ValidationAccuracy
+784;0.8738;0.8529
+784;test;0.8423
