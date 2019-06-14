@@ -17,8 +17,6 @@
 *.gz
 *.iso
 *.rar
-*.csv
-*.png
 #*.tar
 *.zip
 
@@ -42,4 +40,4 @@ tmtagsHistory
 *.sublime-project
 *.sublime-workspace
 .bundle
-venv/
+venv
