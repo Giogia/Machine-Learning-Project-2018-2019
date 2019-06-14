@@ -41,8 +41,8 @@ svm_dict = {
     'random_state': None,
 }
 
-USE_CNN = False
-OPTIMAL_FEATURE_NUMBER_PCA = 785 if not USE_CNN else 1000
+USE_CNN = True
+OPTIMAL_FEATURE_NUMBER_PCA = 375 if not USE_CNN else 490
 
 sets, class_names = load_data(eval_percentage=0.2)
 
@@ -52,12 +52,12 @@ if USE_CNN:
     feature_extractor = CNN()
     sets.train.x, sets.eval.x, sets.test.x = feature_extractor.extract(sets.train.x, sets.eval.x, sets.test.x)
 
-gnb_classifier = Classifier(Classifier.SVM, **svm_dict)
+svm_classifier = Classifier(Classifier.SVM, **svm_dict)
 
 feature_selector = FeaturesSelector(FeaturesSelector.LDA, OPTIMAL_FEATURE_NUMBER_PCA)
 sets = feature_selector.fit(sets)
 
-train_predict, eval_predict, test_predict = gnb_classifier.get_predictions(features=sets.train.x,
+train_predict, eval_predict, test_predict = svm_classifier.get_predictions(features=sets.train.x,
                                                                            labels=sets.train.y,
                                                                            eval_features=sets.eval.x,
                                                                            eval_labels=sets.eval.y,
@@ -71,4 +71,4 @@ print("\n\n\nTrain Accuracy: {}".format(train_accuracy))
 print("Validation Accuracy: {}".format(eval_accuracy))
 print("Test Accuracy: {}".format(test_accuracy))
 
-print("\n\n\nScore: {}".format(gnb_classifier.classifier.score(sets.test.x, sets.test.y)))
+print("\n\n\nScore: {}".format(svm_classifier.classifier.score(sets.test.x, sets.test.y)))

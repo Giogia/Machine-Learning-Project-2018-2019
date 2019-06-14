@@ -24,8 +24,8 @@ linear_dict = {
     'n_jobs': None
 }
 
-USE_CNN = False
-OPTIMAL_FEATURE_NUMBER_PCA = 570 if not USE_CNN else 1000
+USE_CNN = True
+OPTIMAL_FEATURE_NUMBER_LDA = 9
 
 sets, class_names = load_data(eval_percentage=0.2)
 
@@ -37,7 +37,7 @@ if USE_CNN:
 
 linear_classifier = Classifier(Classifier.LINEAR, **linear_dict)
 
-feature_selector = FeaturesSelector(FeaturesSelector.PCA, OPTIMAL_FEATURE_NUMBER_PCA)
+feature_selector = FeaturesSelector(FeaturesSelector.LDA, OPTIMAL_FEATURE_NUMBER_LDA)
 sets = feature_selector.fit(sets)
 
 # Predict the training, evaluation and test set

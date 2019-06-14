@@ -160,7 +160,6 @@ for cl_method in classification_methods:
 
                 accuracies['eval'] = accuracies['eval'] + sum(
                     [eval_predict[i] == sets.eval.y[i] for i in range(len(eval_predict))]) / len(eval_predict)
-                #print("Attempt finished!")
 
             accuracies['train'] = accuracies['train'] / NUM_ATTEMPTS
             accuracies['eval'] = accuracies['eval'] / NUM_ATTEMPTS
@@ -182,15 +181,6 @@ for cl_method in classification_methods:
 
         plt.scatter(nf_list, train_acc_list, s=2, label="training accuracy")
         plt.scatter(nf_list, eval_acc_list, s=2, label="validation accuracy")
-
-        """
-        # Leave a space for description
-        plt.xlabel("\n")
-        plt.figtext(0.5, 0.01, "Best Number of Features = {}".format(nf_max)
-                    + "   Best Evaluation Accuracy = {}".format(eval_acc_max),
-                    wrap=True, horizontalalignment='center', fontsize=10)
-        plt.title(log_file_name[8:-4])
-        """
         plt.grid(True)
         plt.legend(loc='best')
         plt.tight_layout()
@@ -214,7 +204,6 @@ for cl_method in classification_methods:
 
             accuracies['test'] = accuracies['test'] + sum(
                 [test_predict[i] == sets.test.y[i] for i in range(len(test_predict))]) / len(test_predict)
-            #print("Attempt finished!")
 
         with open(log_file_name, 'a') as log:
             log.write(

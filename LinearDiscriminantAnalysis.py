@@ -26,7 +26,7 @@ lda_dict = {
 }
 
 USE_CNN = True
-OPTIMAL_FEATURE_NUMBER_PCA = 770 if not USE_CNN else 1020
+OPTIMAL_FEATURE_NUMBER_PCA = 695 if not USE_CNN else 970
 
 sets, class_names = load_data(eval_percentage=0.2)
 

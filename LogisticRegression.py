@@ -52,7 +52,7 @@ lor_dict = {
 
 
 USE_CNN = True
-OPTIMAL_FEATURE_NUMBER_PCA = 370 if not USE_CNN else 1000
+OPTIMAL_FEATURE_NUMBER_PCA = 415 if not USE_CNN else 920
 
 sets, class_names = load_data()
 

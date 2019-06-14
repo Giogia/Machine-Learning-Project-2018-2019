@@ -22,7 +22,7 @@ qda_dict = {
 }
 
 USE_CNN = False
-OPTIMAL_FEATURE_NUMBER_PCA = 55 if not USE_CNN else 40
+OPTIMAL_FEATURE_NUMBER_PCA = 50 if not USE_CNN else 45
 
 sets, class_names = load_data(eval_percentage=0.2)
 

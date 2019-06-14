@@ -85,3 +85,4 @@ NumFeature;TrainingAccuracy;ValidationAccuracy
 840;0.9658;0.9464
 850;0.9658;0.9473
 860;0.966;0.947
+690;test;0.9164

@@ -18,7 +18,7 @@ gnb_dict = {
     'var_smoothing': 1e-9
 }
 
-USE_CNN = False
+USE_CNN = True
 OPTIMAL_FEATURE_NUMBER_LDA = 9
 
 sets, class_names = load_data(eval_percentage=0.2)
