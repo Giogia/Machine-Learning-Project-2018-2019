@@ -68,7 +68,7 @@ This file is responsible for the training of the CNN if it's necessary to modify
 #### Machine Learning Application.ipynb
 
 This is the file that was used during the creation of the video-demo; if desired it's possible to run it in order to prove the correctness of the described results.
-For the demo 3 custom datasets of 5 images each were provided, the datasets present different difficulty and the one on which is desired to execute the code can be retrieved by changing the value of CHOICE as described
+For the demo, 3 custom datasets of 5 images each were provided, the datasets present different difficulty and the one on which is desired to execute the code can be retrieved by changing the value of CHOICE as described
 ```python
 CHOICE = 0 # 0=standard, 1=advanced, 2=hard
 ```
