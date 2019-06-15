@@ -8,7 +8,7 @@ When executing the code is possible to choose between two alternatives: running 
 
 ---
 
-##### NumberFeatureExploration.py
+#### NumberFeatureExploration.py
 
 This file is responsible for testing the various classification methods with the various possible combinations of feature extraction methods and convolution, for a defined number of times.
 
@@ -45,7 +45,7 @@ linear_dict = {
 }
 ```
 
-##### Classification methods files
+#### Classification methods files
 
 Apart from NumberFeatureExplorer.py is possible to use also the proprietary file for each classification method, in this case only one feature extraction method will be used, by default the values are set to the configuration that during our tests delivered the best performance.
 In order to change the number of features used or change the feature extraction method alter the following lines
@@ -61,11 +61,11 @@ OPTIMAL_FEATURE_NUMBER_PCA = 415 if not USE_CNN else 920
 feature_selector = FeaturesSelector(FeaturesSelector.PCA, OPTIMAL_FEATURE_NUMBER_PCA)
 ```
 
-##### CNN_training.ipynb
+#### CNN_training.ipynb
 
 This file is responsible for the training of the CNN if it's necessary to modify or change the trained model, it's possible to change this code and re-run it. in the end, a new model will be generated.
 
-##### Machine Learning Application.ipynb
+#### Machine Learning Application.ipynb
 
 This is the file that was used during the creation of the video-demo; if desired it's possible to run it in order to prove the correctness of the described results.
 For the demo 3 custom datasets of 5 images each were provided, the datasets present different difficulty and the one on which is desired to execute the code can be retrieved by changing the value of CHOICE as described
