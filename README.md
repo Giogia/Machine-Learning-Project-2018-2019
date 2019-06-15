@@ -17,7 +17,7 @@ Change the following line to change the total number of attempts to execute for 
 NUM_ATTEMPS = 5
 ```
 
-If it's not desired to use the convolutional neural network to extract new features. change this variable to false, if it's left to True, the method will use a pre-trained model to extract the features.
+If it's not desired to use the convolutional neural network to extract new features. change this variable to False, if it's left to True, the method will use a pre-trained model to extract the features.
 ```python
 USE_CNN = True
 ```
