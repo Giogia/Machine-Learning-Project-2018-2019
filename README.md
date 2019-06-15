@@ -51,13 +51,13 @@ Apart from NumberFeatureExplorer.py is possible to use also the proprietary file
 In order to change the number of features used or change the feature extraction method alter the following lines
 ```python
 OPTIMAL_FEATURE_NUMBER_LDA = 9
-~~~
+
 feature_selector = FeaturesSelector(FeaturesSelector.LDA, OPTIMAL_FEATURE_NUMBER_LDA)
 ```
 or alternatively
 ```python
 OPTIMAL_FEATURE_NUMBER_PCA = 415 if not USE_CNN else 920
-~~~
+
 feature_selector = FeaturesSelector(FeaturesSelector.PCA, OPTIMAL_FEATURE_NUMBER_PCA)
 ```
 
