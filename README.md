@@ -34,7 +34,7 @@ classification_methods = [(Classifier.LOGISTIC, lor_dict),
                           (Classifier.QDA, qda_dict)]
 ```
 
-Lastly, each classification method can be furtherly personalized by changing the associated dictionary of values; given that the classification methods are implemented using sci-kit learn library, the accepted keywords are the only one accepted by the library.
+Lastly, each classification method can be furtherly personalized by changing the associated dictionary of values; given that the classification methods are implemented using Scikit-Learn library, the accepted keywords are the only one accepted by the library.
 Here we can see an example of the dictionary for linear regression
 ```python
 linear_dict = {
