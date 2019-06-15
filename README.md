@@ -1,5 +1,5 @@
-## Machine Learning Project
-# Classifying Clothes using Fashion MNIST dataset
+## <div align="center">Machine Learning Project</div>
+#  <div align="center">Classifying Clothes using Fashion MNIST dataset</div>
 
 Our project aims to compare different ML techniques with respect to the final accuracy obtained by the classifiers on F-MNIST dataset. Moreover, we will use the best algorithm in order to perform the classification of real images from the web.
 
