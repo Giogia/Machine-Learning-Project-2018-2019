@@ -63,7 +63,7 @@ feature_selector = FeaturesSelector(FeaturesSelector.PCA, OPTIMAL_FEATURE_NUMBER
 
 #### CNN_training.ipynb
 
-This file is responsible for the training of the CNN if it's necessary to modify or change the trained model, it's possible to change this code and re-run it. in the end, a new model will be generated.
+This file is responsible for the training of the CNN if it's necessary to modify or change the trained model, it's possible to change this code and re-run it. In the end, a new model will be generated.
 
 #### Machine Learning Application.ipynb
 
